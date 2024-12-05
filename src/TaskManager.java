@@ -12,21 +12,21 @@ public class TaskManager {
     }
 
     public Task newAddTask(Task task) {
-        int id = idGenerator.getIdentificatorID();
+        Integer id = (Integer) idGenerator.getIdentificatorID();
         task.setId(id);
         listTask.put(task.getId(), task);
         return task;
     }
 
     public Epic newAddEpic(Epic epic) {
-        int id = idGenerator.getIdentificatorID();
+        Integer id = (Integer) idGenerator.getIdentificatorID();
         epic.setId(id);
         listEpicTask.put(epic.getId(), epic);
         return epic;
     }
 
     public SubTask newAddSub(SubTask subTask) {
-        int id = idGenerator.getIdentificatorID();
+        Integer id = (Integer) idGenerator.getIdentificatorID();
         subTask.setId(id);
         Epic parentsTask = subTask.getParentsTask();
         parentsTask.getSubTasks().add(subTask);
@@ -61,7 +61,7 @@ public class TaskManager {
     }
 
     public Epic deleteEpicTask(Epic epic) {
-        int id = epic.getId();
+        Integer id = epic.getId();
         List<SubTask> subTasksListByEpic = epic.getSubTasks();
         List<SubTask> toRemove = new ArrayList<>();
         for (SubTask subTask : listSubTask.values()) {
@@ -76,21 +76,21 @@ public class TaskManager {
     }
 
     public SubTask deleteSubTask(SubTask subTask) {
-        int id = subTask.getId();
+        Integer id = subTask.getId();
         Epic parentsTask = subTask.getParentsTask();
         newStatus(parentsTask);
         return listSubTask.remove(id);
     }
 
-    public Task findTask(int id) {
+    public Task findTask(Integer id) {
         return listTask.get(id);
     }
 
-    public Epic findEpicTask(int id) {
+    public Epic findEpicTask(Integer id) {
         return listEpicTask.get(id);
     }
 
-    public SubTask findSubTask(int id) {
+    public SubTask findSubTask(Integer id) {
         return listSubTask.get(id);
     }
 

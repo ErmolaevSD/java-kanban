@@ -1,6 +1,6 @@
 public class IdGenerator {
 
-    private static int identificatorID = 0;
+    private static Integer identificatorID = (Integer) 0;
 
     public IdGenerator() {
     }

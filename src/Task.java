@@ -26,7 +26,7 @@ public class Task {
         return status;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -47,7 +47,7 @@ public class Task {
         return status;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

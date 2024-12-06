@@ -1,14 +1,14 @@
 public class SubTask extends Task {
 
-    private final Epic parentsTask;
+    private final Epic parentTask;
 
-    public SubTask(String nameTask, String descriptionTask, STATUS status, Integer id, Epic parentsTask) {
+    public SubTask(String nameTask, String descriptionTask, Status status, Integer id, Epic parentTask) {
         super(nameTask, descriptionTask, status, id);
-        this.parentsTask = parentsTask;
+        this.parentTask = parentTask;
     }
 
-    public Epic getParentsTask() {
-        return parentsTask;
+    public Epic getParentTask() {
+        return parentTask;
     }
 
 }

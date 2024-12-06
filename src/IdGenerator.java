@@ -1,10 +1,11 @@
 public class IdGenerator {
 
-    private static Integer identificatorID = (Integer) 0;
+    private static Integer identificatorID = 0;
 
     public IdGenerator() {
     }
-    public int getIdentificatorID() {
+
+    public Integer getIdentificatorID() {
         identificatorID++;
         return identificatorID;
     }

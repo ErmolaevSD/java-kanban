@@ -2,27 +2,27 @@ import java.util.Objects;
 
 public class Task {
 
-    protected String nameTask;
-    protected String descriptionTask;
-    protected STATUS status;
+    protected String name;
+    protected String description;
+    protected Status status;
     protected Integer id;
 
-    public Task(String nameTask, String descriptionTask, STATUS status, Integer id) {
-        this.nameTask = nameTask;
-        this.descriptionTask = descriptionTask;
+    public Task(String name, String description, Status status, Integer id) {
+        this.name = name;
+        this.description = description;
         this.status = status;
         this.id = id;
     }
 
-    public void setNameTask(String nameTask) {
-        this.nameTask = nameTask;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setDescriptionTask(String descriptionTask) {
-        this.descriptionTask = descriptionTask;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public STATUS getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -30,19 +30,19 @@ public class Task {
         this.id = id;
     }
 
-    public String getNameTask() {
-        return nameTask;
+    public String getName() {
+        return name;
     }
 
-    public String getDescriptionTask() {
-        return descriptionTask;
+    public String getDescription() {
+        return description;
     }
 
-    public STATUS getSTATUS() {
+    public Status getSTATUS() {
         return status;
     }
 
-    public STATUS setStatus(STATUS status) {
+    public Status setStatus(Status status) {
         this.status = status;
         return status;
     }
@@ -67,16 +67,10 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "nameTask='" + nameTask + '\'' +
-                ", descriptionTask='" + descriptionTask + '\'' +
+                "nameTask='" + name + '\'' +
+                ", descriptionTask='" + description + '\'' +
                 ", status=" + status +
                 '}';
-    }
-
-    enum STATUS{
-        NEW,
-        IN_PROGRESS,
-        DONE
     }
 
 }

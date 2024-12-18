@@ -1,49 +1,17 @@
 import java.util.*;
 
-public class InMemoryTaskManager implements TaskManager{
+public class InMemoryTaskManager implements TaskManager {
 
     private int identificatorID = 0;
     private final Map<Integer, Task> listTask = new HashMap<>();
     private final Map<Integer, Epic> listEpicTask = new HashMap<>();
     private final Map<Integer, SubTask> listSubTask = new HashMap<>();
     IdGenerator idGenerator = new IdGenerator();
+    InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
 
-    List<Task> viewedTask = new ArrayList<>();
 
     public InMemoryTaskManager() {
     }
-
-    @Override
-    public List<Task> getHistory() {
-        return viewedTask;
-    }
-
-    public void add(Task task) {
-        if (!(viewedTask.size() == 10)) {
-            viewedTask.add(task);
-        } else {
-            viewedTask.removeFirst();
-            viewedTask.add(task);
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public Task addNewTask(Task task) {
@@ -129,19 +97,19 @@ public class InMemoryTaskManager implements TaskManager{
 
     @Override
     public Task findTask(Integer id) {
-        add(listTask.get(id));
+        inMemoryHistoryManager.add(listTask.get(id));
         return listTask.get(id);
     }
 
     @Override
     public Epic findEpicTask(Integer id) {
-        add(listEpicTask.get(id));
+        inMemoryHistoryManager.add(listEpicTask.get(id));
         return listEpicTask.get(id);
     }
 
     @Override
     public SubTask findSubTask(Integer id) {
-        add(listSubTask.get(id));
+        inMemoryHistoryManager.add(listSubTask.get(id));
         return listSubTask.get(id);
     }
 

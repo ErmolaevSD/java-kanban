@@ -13,4 +13,9 @@ public class Epic extends Task {
     public List<SubTask> getSubTasks() {
         return subTasks;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

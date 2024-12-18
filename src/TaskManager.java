@@ -48,5 +48,4 @@ public interface TaskManager {
 
     int getIdentificatorID();
 
-    List<Task> getHistory();
 }

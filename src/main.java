@@ -13,21 +13,21 @@ public class main {
         SubTask subTask2 = inMemoryTaskManager.addNewSubTask(new SubTask("Вымыть стекло", "Средство", Status.NEW, null,epic1));
         SubTask subTask3 = inMemoryTaskManager.addNewSubTask(new SubTask("Ремонт двигателя", "Тотал", Status.IN_PROGRESS, null, epic2));
 
+        inMemoryTaskManager.inMemoryHistoryManager.add(task2);
+        inMemoryTaskManager.inMemoryHistoryManager.add(epic1);
+        inMemoryTaskManager.inMemoryHistoryManager.add(task1);
+        inMemoryTaskManager.inMemoryHistoryManager.add(task1);
+        inMemoryTaskManager.inMemoryHistoryManager.add(task1);
+        inMemoryTaskManager.inMemoryHistoryManager.add(task1);
+        inMemoryTaskManager.inMemoryHistoryManager.add(task1);
+        inMemoryTaskManager.inMemoryHistoryManager.add(task1);
+        inMemoryTaskManager.inMemoryHistoryManager.add(task1);
+        inMemoryTaskManager.inMemoryHistoryManager.add(task1);
+        inMemoryTaskManager.inMemoryHistoryManager.add(task1);
 
-        inMemoryTaskManager.add(task2);
-        inMemoryTaskManager.add(subTask1);
-        inMemoryTaskManager.add(task1);
-        inMemoryTaskManager.add(task1);
-        inMemoryTaskManager.add(task1);
-        inMemoryTaskManager.add(task1);
-        inMemoryTaskManager.add(task1);
-        inMemoryTaskManager.add(task1);
-        inMemoryTaskManager.add(task1);
-        inMemoryTaskManager.add(task1);
-        inMemoryTaskManager.add(task2);
-        inMemoryTaskManager.add(subTask1);
 
-        System.out.println(inMemoryTaskManager.getHistory());
+
+        System.out.println(inMemoryTaskManager.inMemoryHistoryManager.getHistory());
 
 
 //

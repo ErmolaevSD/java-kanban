@@ -11,4 +11,8 @@ public class SubTask extends Task {
         return parentTask;
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

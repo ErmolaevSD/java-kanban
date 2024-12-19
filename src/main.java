@@ -11,35 +11,40 @@ public class main {
     public static void main(String[] args) {
 
         TaskManager taskManager = Managers.getDefault();
-
         Task task1 = taskManager.addNewTask(new Task("Сделать домашнее задание", "Качествено", Status.NEW, null));
-        Task task2 = taskManager.addNewTask(new Task("Приготовить кофе", "Качествено", Status.NEW, null));
+        System.out.println(task1.hashCode());
 
-        Epic epic1 = taskManager.addNewEpic(new Epic("Уборка квартиры", "Клининг", Status.NEW, null));
-        Epic epic2 = taskManager.addNewEpic(new Epic("Починить машину", "капитал", Status.NEW, null));
-
-        SubTask subTask1 = taskManager.addNewSubTask(new SubTask("Вымыть пол", "Средство", Status.DONE, null, epic1));
-        SubTask subTask2 = taskManager.addNewSubTask(new SubTask("Вымыть стекло", "Средство", Status.NEW, null,epic1));
-        SubTask subTask3 = taskManager.addNewSubTask(new SubTask("Ремонт двигателя", "Тотал", Status.IN_PROGRESS, null, epic2));
-
-
-        InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
-        inMemoryHistoryManager.add(task2);
-        inMemoryHistoryManager.add(epic1);
-        inMemoryHistoryManager.add(task1);
-        inMemoryHistoryManager.add(task1);
-        inMemoryHistoryManager.add(task1);
-        inMemoryHistoryManager.add(task1);
-        inMemoryHistoryManager.add(task1);
-        inMemoryHistoryManager.add(task1);
-        inMemoryHistoryManager.add(task1);
-        inMemoryHistoryManager.add(task1);
-        inMemoryHistoryManager.add(task1);
-
+    }
+}
+//
+//        Task task1 = taskManager.addNewTask(new Task("Сделать домашнее задание", "Качествено", Status.NEW, null));
+//        Task task2 = taskManager.addNewTask(new Task("Приготовить кофе", "Качествено", Status.NEW, null));
+//
+//        Epic epic1 = taskManager.addNewEpic(new Epic("Уборка квартиры", "Клининг", Status.NEW, null));
+//        Epic epic2 = taskManager.addNewEpic(new Epic("Починить машину", "капитал", Status.NEW, null));
+//
+//        SubTask subTask1 = taskManager.addNewSubTask(new SubTask("Вымыть пол", "Средство", Status.DONE, null, epic1));
+//        SubTask subTask2 = taskManager.addNewSubTask(new SubTask("Вымыть стекло", "Средство", Status.NEW, null,epic1));
+//        SubTask subTask3 = taskManager.addNewSubTask(new SubTask("Ремонт двигателя", "Тотал", Status.IN_PROGRESS, null, epic2));
 //
 //
-        System.out.println(inMemoryHistoryManager.getHistory());
-
+//        InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
+//        inMemoryHistoryManager.add(task2);
+//        inMemoryHistoryManager.add(epic1);
+//        inMemoryHistoryManager.add(task1);
+//        inMemoryHistoryManager.add(task1);
+//        inMemoryHistoryManager.add(task1);
+//        inMemoryHistoryManager.add(task1);
+//        inMemoryHistoryManager.add(task1);
+//        inMemoryHistoryManager.add(task1);
+//        inMemoryHistoryManager.add(task1);
+//        inMemoryHistoryManager.add(task1);
+//        inMemoryHistoryManager.add(task1);
+//
+////
+////
+//        System.out.println(inMemoryHistoryManager.getHistory());
+//
 
 //
 //        System.out.println("Замена задачи");
@@ -63,6 +68,6 @@ public class main {
 //        inMemoryTaskManager.deleteEpicTask(epic1);
 //        System.out.println(inMemoryTaskManager.printListEpicTask());
 //        System.out.println(inMemoryTaskManager.printListSubTask());
-//
-    }
-}
+////
+//    }
+//}

@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Task {
 
-    protected String name;
-    protected String description;
-    public Status status;
-    protected Integer id;
+    private String name;
+    private String description;
+    private Status status;
+    private Integer id;
 
     public Task(String name, String description, Status status, Integer id) {
         this.name = name;
@@ -24,10 +24,6 @@ public class Task {
         this.description = description;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -40,7 +36,7 @@ public class Task {
         return description;
     }
 
-    public Status getSTATUS() {
+    public Status getStatus() {
         return status;
     }
 

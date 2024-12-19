@@ -11,8 +11,6 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Integer, Epic> listEpicTask = new HashMap<>();
     private final Map<Integer, SubTask> listSubTask = new HashMap<>();
     IdGenerator idGenerator = new IdGenerator();
-    //InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
-
     private HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
@@ -145,7 +143,7 @@ public class InMemoryTaskManager implements TaskManager {
             Task existingTask = listTask.get(newTask.getId());
             existingTask.setName(newTask.getName());
             existingTask.setDescription(newTask.getDescription());
-            existingTask.setStatus(newTask.getSTATUS());
+            existingTask.setStatus(newTask.getStatus());
         }
         return listTask.put(newTask.getId(), newTask);
     }
@@ -156,7 +154,7 @@ public class InMemoryTaskManager implements TaskManager {
             Task existingTask = listEpicTask.get(newEpic.getId());
             existingTask.setName(newEpic.getName());
             existingTask.setDescription(newEpic.getDescription());
-            existingTask.setStatus(newEpic.getSTATUS());
+            existingTask.setStatus(newEpic.getStatus());
         }
         newStatus(newEpic);
         return listEpicTask.put(newEpic.getId(), newEpic);
@@ -168,7 +166,7 @@ public class InMemoryTaskManager implements TaskManager {
             Task existingTask = listSubTask.get(newSub.getId());
             existingTask.setName(newSub.getName());
             existingTask.setDescription(newSub.getDescription());
-            existingTask.setStatus(newSub.getSTATUS());
+            existingTask.setStatus(newSub.getStatus());
         }
         return listSubTask.put(newSub.getId(), newSub);
     }
@@ -195,10 +193,10 @@ public class InMemoryTaskManager implements TaskManager {
         }
         for (SubTask subTask1 : subTasksByEpic) {
             if (subTask1 == null) {
-                return epic.status;
-            } else if (subTask1.status == Status.NEW) {
+                return epic.getStatus();
+            } else if (subTask1.getStatus() == Status.NEW) {
                 valueNew++;
-            } else if (subTask1.status == Status.DONE) {
+            } else if (subTask1.getStatus() == Status.DONE) {
                 valueDone++;
             }
         }

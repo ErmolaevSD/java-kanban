@@ -1,3 +1,7 @@
+package Managers;
+
+import Tasks.*;
+
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -7,10 +11,12 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Integer, Epic> listEpicTask = new HashMap<>();
     private final Map<Integer, SubTask> listSubTask = new HashMap<>();
     IdGenerator idGenerator = new IdGenerator();
-    InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
+    //InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
 
+    private HistoryManager historyManager;
 
-    public InMemoryTaskManager() {
+    public InMemoryTaskManager(HistoryManager historyManager) {
+        this.historyManager = historyManager;
     }
 
     @Override
@@ -97,19 +103,19 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task findTask(Integer id) {
-        inMemoryHistoryManager.add(listTask.get(id));
+        historyManager.add(listTask.get(id));
         return listTask.get(id);
     }
 
     @Override
     public Epic findEpicTask(Integer id) {
-        inMemoryHistoryManager.add(listEpicTask.get(id));
+        historyManager.add(listEpicTask.get(id));
         return listEpicTask.get(id);
     }
 
     @Override
     public SubTask findSubTask(Integer id) {
-        inMemoryHistoryManager.add(listSubTask.get(id));
+        historyManager.add(listSubTask.get(id));
         return listSubTask.get(id);
     }
 

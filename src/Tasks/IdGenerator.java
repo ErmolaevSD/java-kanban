@@ -1,3 +1,5 @@
+package Tasks;
+
 public class IdGenerator {
 
     private static Integer identificatorID = 0;

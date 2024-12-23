@@ -7,7 +7,9 @@ import Tasks.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,52 +39,91 @@ class InMemoryTaskManagerTest {
 
     @Test
     void testAddNewTask() {
-        listTask = new HashMap<>();
         taskManager.addNewTask(task);
-        int id = 1;
         int idTask = task.getId();
-        boolean lists = listTask.equals(task);
 
-        assertEquals(id, idTask);
-        assertTrue(lists);
+        String nameTask = "[Tasks.Task{nameTask='Первая задача', descriptionTask='-', status=NEW}]";
+        String name = taskManager.printListTask().toString();
 
-//        public Task addNewTask(Task task) {
-//            Integer id = idGenerator.getIdentificatorID();
-//            task.setId(id);
-//            listTask.put(task.getId(), task);
-//            return task;
-
-
-
-
+        assertNotNull(idTask);
+        assertEquals(name, nameTask);
     }
 
     @Test
-    void addNewEpic() {
+    void testAddNewEpic() {
+        taskManager.addNewEpic(epic);
+        int idTask = epic.getId();
+
+        String nameTask = "[Tasks.Task{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
+        String name = taskManager.printListEpicTask().toString();
+
+        assertNotNull(idTask);
+        assertEquals(name, nameTask);
     }
 
     @Test
     void addNewSubTask() {
+        taskManager.addNewSubTask(subTask);
+        int idTask = subTask.getId();
+
+        String nameTask = "[Tasks.Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}]";
+        String name = taskManager.printListSubTask().toString();
+
+        assertNotNull(idTask);
+        assertEquals(name, nameTask);
     }
 
     @Test
-    void printAllSubtasks() {
+    void testPrintAllSubtasksByEpic() {
+        taskManager.addNewEpic(epic);
+        taskManager.addNewSubTask(subTask);
+        taskManager.addNewSubTask(subTask1);
+
+        String listSubTaskByEpic = taskManager.findEpicTask(epic.getId()).getSubTasks().toString();
+        String nameSubTask = "[Tasks.Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}, Tasks.Task{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
+
+        assertEquals(listSubTaskByEpic, nameSubTask);
     }
 
     @Test
     void printListTask() {
+        taskManager.addNewTask(task);
+
+        String listTask = taskManager.printListTask().toString();
+        String nameTask = "[Tasks.Task{nameTask='Первая задача', descriptionTask='-', status=NEW}]";
+
+        assertEquals(listTask, nameTask);
     }
 
     @Test
     void printListEpicTask() {
+        taskManager.addNewEpic(epic);
+
+        String listTask = taskManager.printListEpicTask().toString();
+        String nameTask = "[Tasks.Task{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
+
+        assertEquals(listTask, nameTask);
     }
 
     @Test
-    void printListSubTask() {
+    void testPrintListSubTask() {
+        taskManager.addNewSubTask(subTask);
+        taskManager.addNewSubTask(subTask1);
+        String nameSubTask = "[Tasks.Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}, Tasks.Task{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
+
+        assertEquals(taskManager.printListSubTask().toString(), nameSubTask);
     }
 
     @Test
     void deleteNameTask() {
+        taskManager.addNewTask(task);
+        boolean isTasks = taskManager.printListTask().isEmpty();
+
+        List<Task> nullTask = taskManager.deleteAllTask();
+        List<Task> taskIsEmpty = new ArrayList<>();
+
+        assertFalse(isTasks);
+        assertEquals(nullTask, taskIsEmpty);
     }
 
     @Test

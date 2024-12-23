@@ -172,11 +172,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Map<Integer, SubTask> getListSubTask() {
-        return listSubTask;
-    }
-
-    @Override
     public int getIdentificatorID() {
         return identificatorID;
     }

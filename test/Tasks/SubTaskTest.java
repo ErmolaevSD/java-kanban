@@ -18,6 +18,7 @@ class SubTaskTest {
     @Test
     void testGetParentTask() {
         Epic parentsEpic = subTask.getParentTask();
+
         assertEquals(epic, parentsEpic);
     }
 }

@@ -49,8 +49,6 @@ public interface TaskManager {
 
     SubTask updateSub(SubTask newSub);
 
-    Map<Integer, SubTask> getListSubTask();
-
     Status newStatus(Epic epic);
 
     int getIdentificatorID();

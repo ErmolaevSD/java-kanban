@@ -82,12 +82,12 @@ class TaskTest {
         int taskId = task1.getId();
 
         assertEquals(id, taskId);
-
     }
 
     @Test
     void testEquals() {
         boolean equal = task1.equals(task2);
+
         assertTrue(equal);
     }
 
@@ -95,14 +95,15 @@ class TaskTest {
     void testHashCode() {
         int hashCode = 1;
         int hashCodeTask2 = task1.hashCode();
-        assertEquals(hashCode, hashCodeTask2);
 
+        assertEquals(hashCode, hashCodeTask2);
     }
 
     @Test
     void testToString() {
         String toString = "Tasks.Task{nameTask='Приготовить кофе', descriptionTask='Добавить молоко', status=NEW}";
         String string = task1.toString();
+
         assertEquals(toString, string);
     }
 }

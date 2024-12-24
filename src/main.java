@@ -13,7 +13,7 @@ public class main {
         TaskManager taskManager = Managers.getDefault();
         Task task1 = taskManager.addNewTask(new Task("Сделать домашнее задание", "Качествено", Status.NEW, null));
         System.out.println(task1.hashCode());
-
+        System.out.println();
     }
 }
 //

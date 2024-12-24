@@ -22,9 +22,6 @@ class InMemoryTaskManagerTest {
     private Epic epic;
     private SubTask subTask;
     private SubTask subTask1;
-    private Map<Integer, Task> listTask;
-    private Map<Integer, Epic> listEpicTask;
-    private Map<Integer, SubTask> listSubTask;
 
     @BeforeEach
     public void unit() {

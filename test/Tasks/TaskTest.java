@@ -11,9 +11,9 @@ class TaskTest {
 
     @BeforeEach
     public void unit() {
-       task1 = new Task("Приготовить кофе", "Добавить молоко", Status.NEW, 1);
+        task1 = new Task("Приготовить кофе", "Добавить молоко", Status.NEW, 1);
 
-       task2 = new Task("Убрать квартиру", "Качественно", Status.NEW, 1);
+        task2 = new Task("Убрать квартиру", "Качественно", Status.NEW, 1);
     }
 
     @Test

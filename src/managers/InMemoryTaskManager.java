@@ -1,6 +1,6 @@
-package Managers;
+package managers;
 
-import Tasks.*;
+import tasks.*;
 
 import java.util.*;
 
@@ -77,8 +77,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic deleteEpicTask(Epic epic) {
-        Integer id = epic.getId();
-        List<SubTask> subTasksListByEpic = epic.getSubTasks();
+                List<SubTask> subTasksListByEpic = epic.getSubTasks();
         List<SubTask> toRemove = new ArrayList<>();
         for (SubTask subTask : listSubTask.values()) {
             if (subTasksListByEpic.contains(subTask)) {
@@ -88,7 +87,7 @@ public class InMemoryTaskManager implements TaskManager {
         for (SubTask subTask : toRemove) {
             listSubTask.remove(subTask.getId());
         }
-        return listEpicTask.remove(id);
+        return listEpicTask.remove(epic.getId());
     }
 
     @Override

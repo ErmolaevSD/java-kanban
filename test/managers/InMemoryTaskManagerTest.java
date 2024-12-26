@@ -1,9 +1,9 @@
-package Managers;
+package managers;
 
-import Tasks.Epic;
-import Tasks.Status;
-import Tasks.SubTask;
-import Tasks.Task;
+import tasks.Epic;
+import tasks.Status;
+import tasks.SubTask;
+import tasks.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,15 +17,19 @@ class InMemoryTaskManagerTest {
     private TaskManager taskManager;
     private Task task;
     private Epic epic;
+    private Epic epic2;
     private SubTask subTask;
     private SubTask subTask1;
+    private SubTask subTask3;
 
     @BeforeEach
     public void unit() {
         task = new Task("Первая задача", "-", Status.NEW, 1);
         epic = new Epic("Первый эпик", "-", Status.NEW, 3);
+        //epic2 = new Epic("Первый хз", "-", Status.NEW, 3);
         subTask = new SubTask("Первый сабтаск", "-", Status.NEW, 4, epic);
         subTask1 = new SubTask("Второй сабтаск", "-", Status.NEW, 5, epic);
+        //subTask3 = new SubTask("Второй сабтаск", "-", Status.NEW, 5, epic2);
 
         taskManager = Managers.getDefault();
     }
@@ -116,14 +120,16 @@ class InMemoryTaskManagerTest {
         taskManager.addNewSubTask(subTask);
         taskManager.addNewSubTask(subTask1);
 
+
         assertNotNull(taskManager.printListEpicTask().toString());
         assertNotNull(taskManager.findEpicTask(epic.getId()).getSubTasks().toString());
 
         taskManager.deleteEpicTask(epic);
         String epicNull = "[]";
+        ArrayList<SubTask> subTasks = new ArrayList<>();
 
         assertEquals(epicNull, taskManager.printListEpicTask().toString());
-        assertEquals(epicNull, taskManager.printListEpicTask().toString());
+        assertEquals(subTasks, taskManager.printListSubTask());
     }
 
     @Test
@@ -131,6 +137,7 @@ class InMemoryTaskManagerTest {
         taskManager.addNewSubTask(subTask);
         taskManager.deleteSubTask(subTask);
         String epicNull = "[]";
+
 
         assertEquals(epicNull, taskManager.printListSubTask().toString());
     }

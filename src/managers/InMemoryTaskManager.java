@@ -51,7 +51,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<SubTask> printAllSubtasks(Epic epic) {
-        System.out.println("Подзадачи для эпика: " + epic.getName());
         return getSubTasks(epic);
     }
 
@@ -71,13 +70,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task deleteNameTask(Integer id) {
-        return listTask.remove(id);
+    public Task deleteTask(Task task) {
+        return listTask.remove(task.getId());
     }
 
     @Override
     public Epic deleteEpicTask(Epic epic) {
-                List<SubTask> subTasksListByEpic = epic.getSubTasks();
+        List<SubTask> subTasksListByEpic = epic.getSubTasks();
         List<SubTask> toRemove = new ArrayList<>();
         for (SubTask subTask : listSubTask.values()) {
             if (subTasksListByEpic.contains(subTask)) {
@@ -94,6 +93,7 @@ public class InMemoryTaskManager implements TaskManager {
     public SubTask deleteSubTask(SubTask subTask) {
         Integer id = subTask.getId();
         Epic parentsTask = subTask.getParentTask();
+        listSubTask.remove(id);
         newStatus(parentsTask);
         return listSubTask.remove(id);
     }

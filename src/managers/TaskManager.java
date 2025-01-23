@@ -25,7 +25,7 @@ public interface TaskManager {
 
     List<SubTask> printListSubTask();
 
-    Task deleteNameTask(Integer id);
+    Task deleteTask(Task task);
 
     Epic deleteEpicTask(Epic epic);
 

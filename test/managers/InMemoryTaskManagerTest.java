@@ -36,7 +36,7 @@ class InMemoryTaskManagerTest {
         String nameTask = "[Task{nameTask='Первая задача', descriptionTask='-', status=NEW}]";
         String name = taskManager.printListTask().toString();
 
-        assertEquals(name, nameTask);
+        assertEquals(nameTask, name);
     }
 
     @Test
@@ -45,7 +45,7 @@ class InMemoryTaskManagerTest {
         String nameTask = "[Task{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
         String name = taskManager.printListEpicTask().toString();
 
-        assertEquals(name, nameTask);
+        assertEquals(nameTask, name);
     }
 
     @Test
@@ -54,7 +54,7 @@ class InMemoryTaskManagerTest {
         String nameTask = "[Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}]";
         String name = taskManager.printListSubTask().toString();
 
-        assertEquals(name, nameTask);
+        assertEquals(nameTask,name);
     }
 
     @Test
@@ -66,7 +66,7 @@ class InMemoryTaskManagerTest {
         String listSubTaskByEpic = taskManager.findEpicTask(epic.getId()).getSubTasks().toString();
         String nameSubTask = "[Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}, Task{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
 
-        assertEquals(listSubTaskByEpic, nameSubTask);
+        assertEquals(nameSubTask, listSubTaskByEpic);
     }
 
     @Test
@@ -76,7 +76,7 @@ class InMemoryTaskManagerTest {
         String listTask = taskManager.printListTask().toString();
         String nameTask = "[Task{nameTask='Первая задача', descriptionTask='-', status=NEW}]";
 
-        assertEquals(listTask, nameTask);
+        assertEquals(nameTask, listTask);
     }
 
     @Test
@@ -86,7 +86,7 @@ class InMemoryTaskManagerTest {
         String listTask = taskManager.printListEpicTask().toString();
         String nameTask = "[Task{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
 
-        assertEquals(listTask, nameTask);
+        assertEquals(nameTask, listTask);
     }
 
     @Test
@@ -95,7 +95,7 @@ class InMemoryTaskManagerTest {
         taskManager.addNewSubTask(subTask1);
         String nameSubTask = "[Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}, Task{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
 
-        assertEquals(taskManager.printListSubTask().toString(), nameSubTask);
+        assertEquals(nameSubTask,taskManager.printListSubTask().toString());
     }
 
     @Test
@@ -107,7 +107,7 @@ class InMemoryTaskManagerTest {
         List<Task> taskIsEmpty = new ArrayList<>();
 
         assertFalse(isTasks);
-        assertEquals(nullTask, taskIsEmpty);
+        assertEquals(taskIsEmpty, nullTask);
     }
 
     @Test

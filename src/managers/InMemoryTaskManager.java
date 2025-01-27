@@ -13,6 +13,7 @@ public class InMemoryTaskManager implements TaskManager {
     IdGenerator idGenerator = new IdGenerator();
     private HistoryManager historyManager;
 
+
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
     }
@@ -72,6 +73,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task deleteTask(Task task) {
         historyManager.remove(task.getId());
+        historyManager.deleteTaskHistory(task.getId());
         return listTask.remove(task.getId());
     }
 
@@ -89,6 +91,7 @@ public class InMemoryTaskManager implements TaskManager {
             historyManager.remove(subTask.getId());
         }
         historyManager.remove(epic.getId());
+        historyManager.deleteTaskHistory(epic.getId());
         return listEpicTask.remove(epic.getId());
     }
 
@@ -99,6 +102,7 @@ public class InMemoryTaskManager implements TaskManager {
         listSubTask.remove(id);
         newStatus(parentsTask);
         historyManager.remove(subTask.getId());
+        historyManager.deleteTaskHistory(subTask.getId());
         return listSubTask.remove(id);
     }
 

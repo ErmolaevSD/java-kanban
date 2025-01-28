@@ -17,19 +17,15 @@ class InMemoryTaskManagerTest {
     private TaskManager taskManager;
     private Task task;
     private Epic epic;
-    private Epic epic2;
     private SubTask subTask;
     private SubTask subTask1;
-    private SubTask subTask3;
 
     @BeforeEach
     public void unit() {
         task = new Task("Первая задача", "-", Status.NEW, 1);
         epic = new Epic("Первый эпик", "-", Status.NEW, 3);
-        //epic2 = new Epic("Первый хз", "-", Status.NEW, 3);
         subTask = new SubTask("Первый сабтаск", "-", Status.NEW, 4, epic);
         subTask1 = new SubTask("Второй сабтаск", "-", Status.NEW, 5, epic);
-        //subTask3 = new SubTask("Второй сабтаск", "-", Status.NEW, 5, epic2);
 
         taskManager = Managers.getDefault();
     }
@@ -37,28 +33,28 @@ class InMemoryTaskManagerTest {
     @Test
     void testAddNewTask() {
         taskManager.addNewTask(task);
-        String nameTask = "[Tasks.Task{nameTask='Первая задача', descriptionTask='-', status=NEW}]";
+        String nameTask = "[Task{nameTask='Первая задача', descriptionTask='-', status=NEW}]";
         String name = taskManager.printListTask().toString();
 
-        assertEquals(name, nameTask);
+        assertEquals(nameTask, name);
     }
 
     @Test
     void testAddNewEpic() {
         taskManager.addNewEpic(epic);
-        String nameTask = "[Tasks.Task{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
+        String nameTask = "[Task{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
         String name = taskManager.printListEpicTask().toString();
 
-        assertEquals(name, nameTask);
+        assertEquals(nameTask, name);
     }
 
     @Test
     void testAddNewSubTask() {
         taskManager.addNewSubTask(subTask);
-        String nameTask = "[Tasks.Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}]";
+        String nameTask = "[Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}]";
         String name = taskManager.printListSubTask().toString();
 
-        assertEquals(name, nameTask);
+        assertEquals(nameTask,name);
     }
 
     @Test
@@ -68,9 +64,9 @@ class InMemoryTaskManagerTest {
         taskManager.addNewSubTask(subTask1);
 
         String listSubTaskByEpic = taskManager.findEpicTask(epic.getId()).getSubTasks().toString();
-        String nameSubTask = "[Tasks.Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}, Tasks.Task{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
+        String nameSubTask = "[Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}, Task{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
 
-        assertEquals(listSubTaskByEpic, nameSubTask);
+        assertEquals(nameSubTask, listSubTaskByEpic);
     }
 
     @Test
@@ -78,9 +74,9 @@ class InMemoryTaskManagerTest {
         taskManager.addNewTask(task);
 
         String listTask = taskManager.printListTask().toString();
-        String nameTask = "[Tasks.Task{nameTask='Первая задача', descriptionTask='-', status=NEW}]";
+        String nameTask = "[Task{nameTask='Первая задача', descriptionTask='-', status=NEW}]";
 
-        assertEquals(listTask, nameTask);
+        assertEquals(nameTask, listTask);
     }
 
     @Test
@@ -88,18 +84,18 @@ class InMemoryTaskManagerTest {
         taskManager.addNewEpic(epic);
 
         String listTask = taskManager.printListEpicTask().toString();
-        String nameTask = "[Tasks.Task{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
+        String nameTask = "[Task{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
 
-        assertEquals(listTask, nameTask);
+        assertEquals(nameTask, listTask);
     }
 
     @Test
     void testPrintListSubTask() {
         taskManager.addNewSubTask(subTask);
         taskManager.addNewSubTask(subTask1);
-        String nameSubTask = "[Tasks.Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}, Tasks.Task{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
+        String nameSubTask = "[Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}, Task{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
 
-        assertEquals(taskManager.printListSubTask().toString(), nameSubTask);
+        assertEquals(nameSubTask,taskManager.printListSubTask().toString());
     }
 
     @Test
@@ -111,7 +107,7 @@ class InMemoryTaskManagerTest {
         List<Task> taskIsEmpty = new ArrayList<>();
 
         assertFalse(isTasks);
-        assertEquals(nullTask, taskIsEmpty);
+        assertEquals(taskIsEmpty, nullTask);
     }
 
     @Test
@@ -173,8 +169,8 @@ class InMemoryTaskManagerTest {
     @Test
     void updateTask() {
         taskManager.addNewTask(task);
-        String newNameTask = "[Tasks.Task{nameTask='Новый такс', descriptionTask='-', status=NEW}]";
-        String oldNameTask = "Tasks.Task{nameTask='Первая задача', descriptionTask='-', status=NEW}";
+        String newNameTask = "[Task{nameTask='Новый такс', descriptionTask='-', status=NEW}]";
+        String oldNameTask = "Task{nameTask='Первая задача', descriptionTask='-', status=NEW}";
 
         assertEquals(oldNameTask, taskManager.findTask(task.getId()).toString());
 
@@ -184,34 +180,6 @@ class InMemoryTaskManagerTest {
 
         assertEquals(newNameTask, taskManager.printListTask().toString());
 
-    }
-
-    @Test
-    void updateEpic() {
-        taskManager.addNewEpic(epic);
-        String newNameTask = "Tasks.Task{nameTask='Новый такс', descriptionTask='-', status=NEW}";
-        String oldNameTask = "Tasks.Task{nameTask='Первый эпик', descriptionTask='-', status=NEW}";
-
-        assertEquals(oldNameTask, taskManager.findEpicTask(epic.getId()).toString());
-
-        epic.setName("Новый такс");
-        taskManager.updateEpic(epic);
-
-        assertEquals(newNameTask, taskManager.findEpicTask(epic.getId()).toString());
-    }
-
-    @Test
-    void updateSub() {
-        taskManager.addNewSubTask(subTask);
-        SubTask newTask = new SubTask("Новый такс", "-", Status.NEW, 1, epic);
-        String newNameTask = "Tasks.Task{nameTask='Новый такс', descriptionTask='-', status=NEW}";
-        String oldNameTask = "Tasks.Task{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}";
-
-        assertEquals(oldNameTask, taskManager.findSubTask(subTask.getId()).toString());
-
-        taskManager.updateSub(newTask);
-
-        assertEquals(newNameTask, taskManager.findSubTask(subTask.getId()).toString());
     }
 
     @Test

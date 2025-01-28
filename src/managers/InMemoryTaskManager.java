@@ -13,6 +13,7 @@ public class InMemoryTaskManager implements TaskManager {
     IdGenerator idGenerator = new IdGenerator();
     private HistoryManager historyManager;
 
+
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
     }
@@ -51,7 +52,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<SubTask> printAllSubtasks(Epic epic) {
-        System.out.println("Подзадачи для эпика: " + epic.getName());
         return getSubTasks(epic);
     }
 
@@ -71,13 +71,15 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task deleteNameTask(Integer id) {
-        return listTask.remove(id);
+    public Task deleteTask(Task task) {
+        historyManager.remove(task.getId());
+        historyManager.deleteTaskHistory(task.getId());
+        return listTask.remove(task.getId());
     }
 
     @Override
     public Epic deleteEpicTask(Epic epic) {
-                List<SubTask> subTasksListByEpic = epic.getSubTasks();
+        List<SubTask> subTasksListByEpic = epic.getSubTasks();
         List<SubTask> toRemove = new ArrayList<>();
         for (SubTask subTask : listSubTask.values()) {
             if (subTasksListByEpic.contains(subTask)) {
@@ -86,7 +88,10 @@ public class InMemoryTaskManager implements TaskManager {
         }
         for (SubTask subTask : toRemove) {
             listSubTask.remove(subTask.getId());
+            historyManager.remove(subTask.getId());
         }
+        historyManager.remove(epic.getId());
+        historyManager.deleteTaskHistory(epic.getId());
         return listEpicTask.remove(epic.getId());
     }
 
@@ -94,7 +99,10 @@ public class InMemoryTaskManager implements TaskManager {
     public SubTask deleteSubTask(SubTask subTask) {
         Integer id = subTask.getId();
         Epic parentsTask = subTask.getParentTask();
+        listSubTask.remove(id);
         newStatus(parentsTask);
+        historyManager.remove(subTask.getId());
+        historyManager.deleteTaskHistory(subTask.getId());
         return listSubTask.remove(id);
     }
 

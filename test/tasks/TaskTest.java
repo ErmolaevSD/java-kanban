@@ -101,7 +101,7 @@ class TaskTest {
 
     @Test
     void testToString() {
-        String toString = "Tasks.Task{nameTask='Приготовить кофе', descriptionTask='Добавить молоко', status=NEW}";
+        String toString = "Task{nameTask='Приготовить кофе', descriptionTask='Добавить молоко', status=NEW}";
         String string = task1.toString();
 
         assertEquals(toString, string);

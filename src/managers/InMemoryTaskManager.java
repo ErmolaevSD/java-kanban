@@ -7,9 +7,9 @@ import java.util.*;
 public class InMemoryTaskManager implements TaskManager {
 
     private int identificatorID = 0;
-    private final Map<Integer, Task> listTask = new HashMap<>();
-    private final Map<Integer, Epic> listEpicTask = new HashMap<>();
-    private final Map<Integer, SubTask> listSubTask = new HashMap<>();
+    protected final Map<Integer, Task> listTask = new HashMap<>();
+    protected final Map<Integer, Epic> listEpicTask = new HashMap<>();
+    protected final Map<Integer, SubTask> listSubTask = new HashMap<>();
     IdGenerator idGenerator = new IdGenerator();
     private HistoryManager historyManager;
 

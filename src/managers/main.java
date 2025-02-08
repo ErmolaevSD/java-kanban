@@ -5,9 +5,15 @@ import tasks.Status;
 import tasks.SubTask;
 import tasks.Task;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         HistoryManager historyManager;
         InMemoryTaskManager inMemoryTaskManager;
@@ -57,6 +63,10 @@ public class main {
 
         System.out.println("Список посмотренных: " + historyManager.getHistory().size());
         System.out.println("Список посмотренных: " + historyManager.getHistory());
+
+
+
+
 
     }
 }

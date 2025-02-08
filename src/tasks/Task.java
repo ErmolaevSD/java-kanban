@@ -62,6 +62,10 @@ public class Task {
         return Objects.hashCode(id);
     }
 
+    public String stringToFile() {
+        return String.format("%s,%s,%s,%s,%s,\n",id, TaskType.TASK, name, status, description);
+    }
+
     @Override
     public String toString() {
         return "Task{" +

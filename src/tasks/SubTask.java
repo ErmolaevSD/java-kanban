@@ -13,8 +13,16 @@ public class SubTask extends Task {
         return parentTask;
     }
 
+    public String stringToFile() {
+        return String.format("%s,%s,%s,%s,%s,%s,\n", getId(), TaskType.SUBTASK, getName(), getStatus(), getDescription(), getParentTask().getId());
+    }
+
     @Override
     public String toString() {
-        return super.toString();
+        return "SubTask{" +
+                "nameTask='" + getName() + '\'' +
+                ", descriptionTask='" + getDescription() + '\'' +
+                ", status=" + getStatus() +
+                '}';
     }
 }

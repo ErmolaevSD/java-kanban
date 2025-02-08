@@ -128,7 +128,6 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Task> deleteAllTask() {
         listTask.clear();
         return new ArrayList<>(listTask.values());
-
     }
 
     @Override

@@ -65,6 +65,14 @@ public class main {
         System.out.println("Список посмотренных: " + historyManager.getHistory());
 
 
+        File file = new File("data.csv");
+
+        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(historyManager, file);
+
+        fileBackedTaskManager.addNewTask(task);
+        fileBackedTaskManager.addNewTask(task1);
+        fileBackedTaskManager.addNewEpic(epic);
+        fileBackedTaskManager.addNewSubTask(subTask);
 
 
 

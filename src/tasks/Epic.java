@@ -12,12 +12,20 @@ public class Epic extends Task {
         subTasks = new ArrayList<>();
     }
 
+    public String stringToFile() {
+        return String.format("%s,%s,%s,%s,%s,\n",getId(), TaskType.EPIC, getName(), getStatus(), getDescription());
+    }
+
     public List<SubTask> getSubTasks() {
         return subTasks;
     }
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Epic{" +
+                "nameTask='" + getName() + '\'' +
+                ", descriptionTask='" + getDescription() + '\'' +
+                ", status=" + getStatus() +
+                '}';
     }
 }

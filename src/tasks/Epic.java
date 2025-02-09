@@ -13,7 +13,7 @@ public class Epic extends Task {
     }
 
     public String stringToFile() {
-        return String.format("%s,%s,%s,%s,%s,\n",getId(), TaskType.EPIC, getName(), getStatus(), getDescription());
+        return String.format("%s,%s,%s,%s,%s\n",getId(), TaskType.EPIC, getName(), getStatus(), getDescription());
     }
 
     public List<SubTask> getSubTasks() {

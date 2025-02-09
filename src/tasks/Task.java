@@ -63,7 +63,7 @@ public class Task {
     }
 
     public String stringToFile() {
-        return String.format("%s,%s,%s,%s,%s,\n",id, TaskType.TASK, name, status, description);
+        return String.format("%s,%s,%s,%s,%s\n",id, TaskType.TASK, name, status, description);
     }
 
     @Override

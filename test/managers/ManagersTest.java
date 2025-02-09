@@ -1,10 +1,32 @@
 package managers;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tasks.Epic;
+import tasks.Status;
+import tasks.SubTask;
+import tasks.Task;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ManagersTest {
+
+    private File file;
+
+    @BeforeEach
+    void unit() {
+        try {
+            file = Files.createTempFile("data-",".csv").toFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Test
     void testGetDefault() {
@@ -16,5 +38,18 @@ class ManagersTest {
     void testGetDefaultHistory() {
         HistoryManager historyManager = Managers.getDefaultHistory();
         assertInstanceOf(InMemoryHistoryManager.class, historyManager);
+    }
+
+    @Test
+    void getFileBackedTaskManager() {
+        Path filePath = null;
+        try {
+            filePath = Files.createTempFile("data-", "csv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        TaskManager actually = Managers.getFileBackedTaskManager(filePath.toFile());
+        Assertions.assertInstanceOf(FileBackedTaskManager.class, actually);
     }
 }

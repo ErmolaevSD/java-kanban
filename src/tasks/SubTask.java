@@ -14,7 +14,7 @@ public class SubTask extends Task {
     }
 
     public String stringToFile() {
-        return String.format("%s,%s,%s,%s,%s,%s,\n", getId(), TaskType.SUBTASK, getName(), getStatus(), getDescription(), getParentTask().getId());
+        return String.format("%s,%s,%s,%s,%s,%s\n", getId(), TaskType.SUBTASK, getName(), getStatus(), getDescription(), getParentTask().getId());
     }
 
     @Override

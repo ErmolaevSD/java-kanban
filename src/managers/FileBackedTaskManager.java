@@ -1,8 +1,7 @@
 package managers;
 
-import tasks.Epic;
-import tasks.SubTask;
-import tasks.Task;
+import exception.ManagerSaveException;
+import tasks.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -118,24 +117,57 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         for (SubTask task : listSubTask.values()) {
             tasks.add(task.stringToFile());
         }
-        taskToFile(tasks);
+        try {
+            taskToFile(tasks);
+        } catch (IOException e) {
+            throw new ManagerSaveException("Ошибка сохранения в файл");
+        }
     }
 
     /* Проходимся по списку задач -> каждую записываем в файл */
-    private void taskToFile(List<String> tasks) {
+    private void taskToFile(List<String> tasks) throws IOException {
         try (FileWriter fileWriter = new FileWriter(file, StandardCharsets.UTF_8, false)) {
             for (String task : tasks) {
                 fileWriter.write(task);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
-//    static FileBackedTaskManager loadFromFile (File file) {
-//
-//    }
+    public void loadFromFile(File file) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(file))) {
+            List<String> stringTask = new ArrayList<>();
+            while (fileReader.ready()) {
+                String line = fileReader.readLine();
+                stringTask.add(line);
+            }
 
+            for (String string : stringTask) {
+                if (string.equals("id,type,name,status,description,epic")) {
+                    continue;
+                }
+                String[] lineIsTask = string.trim().split(",");
+                TaskType taskType = TaskType.valueOf(lineIsTask[1]);
+                Status status;
+                String stringStatus = lineIsTask[3];
+
+                switch (stringStatus) {
+                    case "NEW" -> status = Status.NEW;
+                    case "DONE" -> status = Status.DONE;
+                    case "IN_PROGRESS" -> status = Status.IN_PROGRESS;
+                    default -> throw new RuntimeException("Ошибка извлечения статуса задачи из файла");
+                }
+
+                switch (taskType) {
+                    case TASK ->
+                            listTask.put(Integer.parseInt(lineIsTask[0]), new Task(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0])));
+                    case EPIC ->
+                            listEpicTask.put(Integer.parseInt(lineIsTask[0]), new Epic(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0])));
+                    case SUBTASK ->
+                            listSubTask.put(Integer.parseInt(lineIsTask[0]), new SubTask(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0]), listEpicTask.get(Integer.valueOf(lineIsTask[5]))));
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка загрузки файла с задачами");
+        }
+    }
 }
-
-

@@ -19,11 +19,11 @@ public interface TaskManager {
 
     List<SubTask> printAllSubtasks(Epic epic);
 
-    List<Task> printListTask();
+    List<Task> getListTask();
 
-    List<Epic> printListEpicTask();
+    List<Epic> getListEpicTask();
 
-    List<SubTask> printListSubTask();
+    List<SubTask> getListSubTask();
 
     Task deleteTask(Task task);
 

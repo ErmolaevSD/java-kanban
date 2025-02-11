@@ -37,7 +37,7 @@ class InMemoryHistoryManagerTest {
         historyManager.add(epic);
 
         String history = historyManager.getHistory().toString();
-        String historyDone = "[Task{nameTask='Первая задача', descriptionTask='-', status=NEW}, Task{nameTask='Первая задача', descriptionTask='-', status=NEW}, Task{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
+        String historyDone = "[Task{nameTask='Первая задача', descriptionTask='-', status=NEW}, Task{nameTask='Первая задача', descriptionTask='-', status=NEW}, Epic{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
         assertEquals(historyDone, history);
     }
 

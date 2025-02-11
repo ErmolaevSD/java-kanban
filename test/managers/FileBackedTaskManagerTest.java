@@ -14,12 +14,12 @@ import java.nio.file.Files;
 
 class FileBackedTaskManagerTest {
 
-    File file;
-    Task task;
-    Task task1;
-    Epic epic;
-    SubTask subTask;
-    TaskManager taskManager;
+    private File file;
+    private Task task;
+    private Task task1;
+    private Epic epic;
+    private SubTask subTask;
+    private TaskManager taskManager;
 
     @BeforeEach
     void unit() {
@@ -45,8 +45,8 @@ class FileBackedTaskManagerTest {
         taskManager.addNewSubTask(subTask);
 
         TaskManager load = Managers.loadFrom(file);
-        String expected = taskManager.printListTask() + " " + taskManager.printListEpicTask() + " " + taskManager.printListSubTask();
-        String actually = load.printListTask() + " " + load.printListEpicTask() + " " + load.printListSubTask();
+        String expected = taskManager.getListTask() + " " + taskManager.getListEpicTask() + " " + taskManager.getListSubTask();
+        String actually = load.getListTask() + " " + load.getListEpicTask() + " " + load.getListSubTask();
         Assertions.assertEquals(expected, actually);
     }
 
@@ -56,8 +56,8 @@ class FileBackedTaskManagerTest {
         taskManager.addNewTask(task1);
 
         TaskManager load = Managers.loadFrom(file);
-        String expected = taskManager.printListTask().toString();
-        String actually = load.printListTask().toString();
+        String expected = taskManager.getListTask().toString();
+        String actually = load.getListTask().toString();
         Assertions.assertEquals(expected, actually);
     }
 
@@ -68,12 +68,12 @@ class FileBackedTaskManagerTest {
         taskManager.deleteTask(task);
 
         TaskManager load = Managers.loadFrom(file);
-        Integer expected = taskManager.printListTask().size();
-        Integer actually = load.printListTask().size();
+        Integer expected = taskManager.getListTask().size();
+        Integer actually = load.getListTask().size();
         Integer one = 1;
         Assertions.assertEquals(expected, actually);
-        Assertions.assertEquals(expected, one);
-        Assertions.assertEquals(actually, one);
+        Assertions.assertEquals(one,expected);
+        Assertions.assertEquals(one,actually);
     }
 
     @Test
@@ -83,11 +83,11 @@ class FileBackedTaskManagerTest {
         taskManager.deleteEpicTask(epic);
 
         TaskManager load = Managers.loadFrom(file);
-        Integer expected = taskManager.printListTask().size() + taskManager.printListEpicTask().size() + taskManager.printListSubTask().size();
-        Integer actually = load.printListTask().size() + taskManager.printListEpicTask().size() + taskManager.printListSubTask().size();
+        Integer expected = taskManager.getListTask().size() + taskManager.getListEpicTask().size() + taskManager.getListSubTask().size();
+        Integer actually = load.getListTask().size() + taskManager.getListEpicTask().size() + taskManager.getListSubTask().size();
         Integer zero = 0;
         Assertions.assertEquals(expected, actually);
-        Assertions.assertEquals(expected, zero);
-        Assertions.assertEquals(actually, zero);
+        Assertions.assertEquals(zero,expected);
+        Assertions.assertEquals(zero,actually);
     }
 }

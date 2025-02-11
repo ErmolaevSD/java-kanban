@@ -34,7 +34,7 @@ class InMemoryTaskManagerTest {
     void testAddNewTask() {
         taskManager.addNewTask(task);
         String nameTask = "[Task{nameTask='Первая задача', descriptionTask='-', status=NEW}]";
-        String name = taskManager.printListTask().toString();
+        String name = taskManager.getListTask().toString();
 
         assertEquals(nameTask, name);
     }
@@ -43,7 +43,7 @@ class InMemoryTaskManagerTest {
     void testAddNewEpic() {
         taskManager.addNewEpic(epic);
         String nameTask = "[Epic{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
-        String name = taskManager.printListEpicTask().toString();
+        String name = taskManager.getListEpicTask().toString();
 
         assertEquals(nameTask, name);
     }
@@ -52,7 +52,7 @@ class InMemoryTaskManagerTest {
     void testAddNewSubTask() {
         taskManager.addNewSubTask(subTask);
         String nameTask = "[SubTask{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}]";
-        String name = taskManager.printListSubTask().toString();
+        String name = taskManager.getListSubTask().toString();
 
         assertEquals(nameTask,name);
     }
@@ -70,38 +70,38 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void testPrintListTask() {
+    void testGetListTask() {
         taskManager.addNewTask(task);
 
-        String listTask = taskManager.printListTask().toString();
+        String listTask = taskManager.getListTask().toString();
         String nameTask = "[Task{nameTask='Первая задача', descriptionTask='-', status=NEW}]";
 
         assertEquals(nameTask, listTask);
     }
 
     @Test
-    void testPrintListEpicTask() {
+    void testGetListEpicTask() {
         taskManager.addNewEpic(epic);
 
-        String listTask = taskManager.printListEpicTask().toString();
+        String listTask = taskManager.getListEpicTask().toString();
         String nameTask = "[Epic{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
 
         assertEquals(nameTask, listTask);
     }
 
     @Test
-    void testPrintListSubTask() {
+    void testGetListSubTask() {
         taskManager.addNewSubTask(subTask);
         taskManager.addNewSubTask(subTask1);
         String nameSubTask = "[SubTask{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}, SubTask{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
 
-        assertEquals(nameSubTask,taskManager.printListSubTask().toString());
+        assertEquals(nameSubTask,taskManager.getListSubTask().toString());
     }
 
     @Test
     void testDeleteNameTask() {
         taskManager.addNewTask(task);
-        boolean isTasks = taskManager.printListTask().isEmpty();
+        boolean isTasks = taskManager.getListTask().isEmpty();
 
         List<Task> nullTask = taskManager.deleteAllTask();
         List<Task> taskIsEmpty = new ArrayList<>();
@@ -117,15 +117,15 @@ class InMemoryTaskManagerTest {
         taskManager.addNewSubTask(subTask1);
 
 
-        assertNotNull(taskManager.printListEpicTask().toString());
+        assertNotNull(taskManager.getListEpicTask().toString());
         assertNotNull(taskManager.findEpicTask(epic.getId()).getSubTasks().toString());
 
         taskManager.deleteEpicTask(epic);
         String epicNull = "[]";
         ArrayList<SubTask> subTasks = new ArrayList<>();
 
-        assertEquals(epicNull, taskManager.printListEpicTask().toString());
-        assertEquals(subTasks, taskManager.printListSubTask());
+        assertEquals(epicNull, taskManager.getListEpicTask().toString());
+        assertEquals(subTasks, taskManager.getListSubTask());
     }
 
     @Test
@@ -135,7 +135,7 @@ class InMemoryTaskManagerTest {
         String epicNull = "[]";
 
 
-        assertEquals(epicNull, taskManager.printListSubTask().toString());
+        assertEquals(epicNull, taskManager.getListSubTask().toString());
     }
 
     @Test
@@ -178,7 +178,7 @@ class InMemoryTaskManagerTest {
 
         taskManager.updateTask(task);
 
-        assertEquals(newNameTask, taskManager.printListTask().toString());
+        assertEquals(newNameTask, taskManager.getListTask().toString());
 
     }
 

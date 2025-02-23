@@ -1,13 +1,17 @@
 package tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
 
-    private String name;
-    private String description;
-    private Status status;
-    private Integer id;
+    protected String name;
+    protected String description;
+    protected Status status;
+    protected Integer id;
+//    protected Duration duration;
+//    protected LocalDateTime startTime;
 
     public Task(String name, String description, Status status, Integer id) {
         this.name = name;

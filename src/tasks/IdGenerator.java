@@ -2,13 +2,17 @@ package tasks;
 
 public class IdGenerator {
 
-    private static Integer identificatorID = 0;
+    private static Integer identificationID = 0;
 
     public IdGenerator() {
     }
 
-    public Integer getIdentificatorID() {
-        identificatorID++;
-        return identificatorID;
+    public Integer getIdentificationID() {
+        identificationID++;
+        return identificationID;
+    }
+
+    public void setIdentificationID(Integer identificationID) {
+        IdGenerator.identificationID = identificationID;
     }
 }

@@ -58,7 +58,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void testPrintAllSubtasksByEpic() {
+    void testGetAllSubtasksByEpic() {
         taskManager.addNewEpic(epic);
         taskManager.addNewSubTask(subTask);
         taskManager.addNewSubTask(subTask1);

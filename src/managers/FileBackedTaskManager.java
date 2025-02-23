@@ -140,7 +140,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 String line = fileReader.readLine();
                 stringTask.add(line);
             }
-
+            int newId = 0;
             for (String string : stringTask) {
                 if (string.equals("id,type,name,status,description,epic")) {
                     continue;
@@ -165,6 +165,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     case SUBTASK ->
                             listSubTask.put(Integer.parseInt(lineIsTask[0]), new SubTask(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0]), listEpicTask.get(Integer.valueOf(lineIsTask[5]))));
                 }
+
+                int id = Integer.parseInt(lineIsTask[0]);
+
+                if (newId < id) {
+                    newId = id;
+                }
+                setIdentificationID(newId);
             }
         } catch (IOException e) {
             throw new RuntimeException("Ошибка загрузки файла с задачами");

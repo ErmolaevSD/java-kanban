@@ -17,7 +17,7 @@ public interface TaskManager {
 
     List<SubTask> getSubTasks(Epic epic);
 
-    List<SubTask> printAllSubtasks(Epic epic);
+    List<SubTask> getAllSubtasks(Epic epic);
 
     List<Task> getListTask();
 
@@ -51,6 +51,5 @@ public interface TaskManager {
 
     Status newStatus(Epic epic);
 
-    int getIdentificatorID();
 
 }

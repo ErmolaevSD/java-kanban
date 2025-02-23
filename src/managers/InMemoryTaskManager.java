@@ -6,21 +6,26 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private final int identificatorID = 0;
+
+    protected int identificationID = 0;
     protected final Map<Integer, Task> listTask = new HashMap<>();
     protected final Map<Integer, Epic> listEpicTask = new HashMap<>();
     protected final Map<Integer, SubTask> listSubTask = new HashMap<>();
     IdGenerator idGenerator = new IdGenerator();
-    private HistoryManager historyManager;
+    private final HistoryManager historyManager;
 
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
     }
 
+    public void setIdentificationID(int identificationID) {
+        this.identificationID = identificationID;
+    }
+
     @Override
     public Task addNewTask(Task task) {
-        Integer id = idGenerator.getIdentificatorID();
+        Integer id = idGenerator.getIdentificationID();
         task.setId(id);
         listTask.put(task.getId(), task);
         return task;
@@ -28,7 +33,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic addNewEpic(Epic epic) {
-        Integer id = idGenerator.getIdentificatorID();
+        Integer id = idGenerator.getIdentificationID();
         epic.setId(id);
         listEpicTask.put(epic.getId(), epic);
         return epic;
@@ -36,7 +41,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public SubTask addNewSubTask(SubTask subTask) {
-        Integer id = idGenerator.getIdentificatorID();
+        Integer id = idGenerator.getIdentificationID();
         subTask.setId(id);
         Epic parentsTask = subTask.getParentTask();
         parentsTask.getSubTasks().add(subTask);
@@ -51,7 +56,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<SubTask> printAllSubtasks(Epic epic) {
+    public List<SubTask> getAllSubtasks(Epic epic) {
         return getSubTasks(epic);
     }
 
@@ -175,11 +180,6 @@ public class InMemoryTaskManager implements TaskManager {
             existingTask.setStatus(newSub.getStatus());
         }
         return listSubTask.put(newSub.getId(), newSub);
-    }
-
-    @Override
-    public int getIdentificatorID() {
-        return identificatorID;
     }
 
     @Override

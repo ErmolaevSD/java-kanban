@@ -11,37 +11,31 @@ import tasks.Task;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.Duration;
+import java.time.Instant;
 
-class FileBackedTaskManagerTest {
+class FileBackedTaskManagerTest extends AbstractManagerTest {
 
-    private File file;
-    private Task task;
-    private Task task1;
-    private Epic epic;
-    private SubTask subTask;
-    private TaskManager taskManager;
-
-    @BeforeEach
-    void unit() {
-        try {
-            file = Files.createTempFile("data-", ".csv").toFile();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        taskManager = Managers.getFileBackedTaskManager(file);
-
-        task = new Task("Первая задача", "-", Status.NEW, 1);
-        task1 = new Task("Первая задача", "-", Status.NEW, 2);
-        epic = new Epic("Первый эпик", "-", Status.NEW, 3);
-        subTask = new SubTask("Первый сабтаск", "-", Status.NEW, 4, epic);
-    }
+//    @BeforeEach
+//    void unit() {
+//        try {
+//            file = Files.createTempFile("data-", ".csv").toFile();
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        taskManager = Managers.getFileBackedTaskManager(file);
+//
+//        task1 = new Task("Первая задача", "-", Status.NEW, 2, Duration.ofMinutes(15), Instant.now().minusSeconds(10000));
+//        task = new Task("Первая задача", "-", Status.NEW, 1, Duration.ofMinutes(1), Instant.now().minusSeconds(100));
+//        epic = new Epic("Первый эпик", "-", Status.NEW, 3, Duration.ofMinutes(5), Instant.now().minusSeconds(50));
+//        subTask = new SubTask("Первый сабтаск", "-", Status.NEW, 4, epic,Duration.ofMinutes(10), Instant.now().minusSeconds(6000));
+//    }
 
     @Test
     void loadFromFile() {
         taskManager.addNewTask(task);
         taskManager.addNewTask(task1);
-        taskManager.addNewEpic(epic);
         taskManager.addNewSubTask(subTask);
 
         TaskManager load = Managers.loadFrom(file);

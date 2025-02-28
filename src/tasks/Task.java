@@ -1,23 +1,52 @@
 package tasks;
 
+import exception.ManagerTimeException;
+
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 public class Task {
 
-    protected String name;
-    protected String description;
-    protected Status status;
-    protected Integer id;
-//    protected Duration duration;
-//    protected LocalDateTime startTime;
+    private String name;
+    private String description;
+    private Status status;
+    private Integer id;
+    private Duration duration;
+    private Instant startTime;
 
-    public Task(String name, String description, Status status, Integer id) {
+    public Task(String name, String description, Status status, Integer id, Duration duration, Instant startTime) {
         this.name = name;
         this.description = description;
         this.status = status;
         this.id = id;
+        this.startTime = startTime;
+        this.duration = duration;
+    }
+
+
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
+    }
+
+    public Instant getStartTime() {
+        if (startTime == null) {
+            throw new ManagerTimeException("Не задано начальное время");
+        } else return startTime;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public Instant getEndTime() {
+        if (startTime == null) {
+            throw new ManagerTimeException("Не задано начальное время");
+        } else return startTime.plus(duration);
     }
 
     public void setName(String name) {
@@ -67,7 +96,7 @@ public class Task {
     }
 
     public String stringToFile() {
-        return String.format("%s,%s,%s,%s,%s\n",id, TaskType.TASK, name, status, description);
+        return String.format("%s,%s,%s,%s,%s,%s,%s\n", id, TaskType.TASK, name, status, description, duration, startTime);
     }
 
     @Override
@@ -78,5 +107,4 @@ public class Task {
                 ", status=" + status +
                 '}';
     }
-
 }

@@ -5,6 +5,8 @@ import tasks.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -104,7 +106,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private void save() {
         List<String> tasks = new ArrayList<>();
-        tasks.add("id,type,name,status,description,epic\n");
+        tasks.add("id,type,name,status,description,epic,duration,startTime\n");
 
         for (Task task : listTask.values()) {
             tasks.add(task.stringToFile());
@@ -142,7 +144,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
             int newId = 0;
             for (String string : stringTask) {
-                if (string.equals("id,type,name,status,description,epic")) {
+                if (string.equals("id,type,name,status,description,epic,duration,startTime")) {
                     continue;
                 }
                 String[] lineIsTask = string.trim().split(",");
@@ -159,11 +161,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
                 switch (taskType) {
                     case TASK ->
-                            listTask.put(Integer.parseInt(lineIsTask[0]), new Task(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0])));
+                            listTask.put(Integer.parseInt(lineIsTask[0]), new Task(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0]), Duration.parse(lineIsTask[5]), Instant.parse(lineIsTask[6])));
                     case EPIC ->
-                            listEpicTask.put(Integer.parseInt(lineIsTask[0]), new Epic(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0])));
+                            listEpicTask.put(Integer.parseInt(lineIsTask[0]), new Epic(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0]),Duration.parse(lineIsTask[5]), Instant.parse(lineIsTask[6])));
                     case SUBTASK ->
-                            listSubTask.put(Integer.parseInt(lineIsTask[0]), new SubTask(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0]), listEpicTask.get(Integer.valueOf(lineIsTask[5]))));
+                            listSubTask.put(Integer.parseInt(lineIsTask[0]), new SubTask(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0]), listEpicTask.get(Integer.valueOf(lineIsTask[5])),Duration.parse(lineIsTask[6]), Instant.parse(lineIsTask[7])));
                 }
 
                 int id = Integer.parseInt(lineIsTask[0]);

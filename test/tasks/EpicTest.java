@@ -1,32 +1,56 @@
 package tasks;
 
+import managers.Managers;
+import managers.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.time.Duration;
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 class EpicTest {
 
     Epic epic;
     SubTask subTask;
-    List<SubTask> listSubTask;
+    SubTask subTask1;
+    TaskManager taskManager;
+
 
     @BeforeEach
     public void unit() {
-        epic= new Epic("Купить квартиру", "-", Status.NEW, 1);
-        subTask = new SubTask("Накопить", "1000", Status.NEW, 2,epic);
+        taskManager = Managers.getDefault();
+        epic = new Epic("Купить квартиру", "-", Status.NEW, 1, Duration.ofMinutes(1), Instant.ofEpochSecond(10));
+        subTask = new SubTask("Накопить", "1000", Status.NEW, 2,epic,Duration.ofMinutes(5),Instant.ofEpochSecond(100));
+        subTask1 = new SubTask("Накопить", "1000", Status.NEW, 3,epic,Duration.ofMinutes(5),Instant.ofEpochSecond(1200));
+        taskManager.addNewEpic(epic);
+        taskManager.addNewSubTask(subTask);
+        taskManager.addNewSubTask(subTask1);
     }
 
     @Test
     void getSubTasks() {
-        List<SubTask> listSub = epic.getSubTasks();
+        Integer expected = 2;
+        Integer actually = epic.getSubTasks().size();
 
-        for (SubTask subTask1: listSub) {
-            if (subTask1.equals(subTask)) {
-                listSubTask.add(subTask1);
-            }
-            assertEquals(listSub, listSubTask);
-        }
+        assertEquals(expected, actually);
+    }
+
+    @Test
+    void epicStartTime() {
+epic.setStartTime();
+        Instant expected = epic.getStartTime();
+        Instant actually = Instant.ofEpochSecond(100);
+
+        assertEquals(expected, actually);
+    }
+
+    @Test
+    void getEndTime() {
+        epic.setEndTime();
+        Instant expected = epic.getEndTime();
+        Instant actually = Instant.ofEpochSecond(1500);
+
+        assertEquals(expected, actually);
     }
 }

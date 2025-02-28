@@ -11,8 +11,4 @@ public class IdGenerator {
         identificationID++;
         return identificationID;
     }
-
-    public void setIdentificationID(Integer identificationID) {
-        IdGenerator.identificationID = identificationID;
-    }
 }

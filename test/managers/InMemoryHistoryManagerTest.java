@@ -7,24 +7,27 @@ import tasks.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryHistoryManagerTest {
+class InMemoryHistoryManagerTest extends AbstractManagerTest{
 
-    private HistoryManager historyManager;
-    private Task task;
-    private Task task1;
-    private Epic epic;
-    private SubTask subTask;
+//    private HistoryManager historyManager;
+//    private Task task;
+//    private Task task1;
+//    private Epic epic;
+//    private SubTask subTask;
 
-    @BeforeEach
-    void unit() {
-        historyManager = Managers.getDefaultHistory();
-        task = new Task("Первая задача", "-", Status.NEW, 1);
-        task1 = new Task("Первая задача", "-", Status.NEW, 2);
-        epic = new Epic("Первый эпик", "-", Status.NEW, 3);
-        subTask = new SubTask("Первый сабтаск", "-", Status.NEW, 4, epic);
-    }
+//    @BeforeEach
+//    void unit() {
+//        historyManager = Managers.getDefaultHistory();
+//        task1 = new Task("Первая задача", "-", Status.NEW, 2,Duration.ofMinutes(15), Instant.now().minusSeconds(10000));
+//        task = new Task("Первая задача", "-", Status.NEW, 1, Duration.ofMinutes(1), Instant.now().minusSeconds(100));
+//        epic = new Epic("Первый эпик", "-", Status.NEW, 3, Duration.ofMinutes(5), Instant.now().minusSeconds(50));
+//        subTask = new SubTask("Первый сабтаск", "-", Status.NEW, 4, epic,Duration.ofMinutes(10), Instant.now().minusSeconds(6000));
+//    }
 
     @Test
     void testAdd() {

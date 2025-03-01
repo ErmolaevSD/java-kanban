@@ -1,37 +1,15 @@
 package managers;
 
 import exception.IntersectionTaskException;
-import tasks.Epic;
 import tasks.Status;
 import tasks.SubTask;
 import tasks.Task;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest {
-
-    private TaskManager taskManager;
-    private Task task;
-    private Epic epic;
-    private SubTask subTask;
-    private SubTask subTask1;
-
-    @BeforeEach
-    public void unit() {
-        task = new Task("Первая задача", "-", Status.NEW, 1,Duration.ofMinutes(100), Instant.ofEpochSecond(10));
-        epic = new Epic("Первый эпик", "-", Status.NEW, 3, Duration.ofMinutes(5), Instant.ofEpochSecond(1000));
-        subTask = new SubTask("Первый сабтаск", "-", Status.NEW, 4, epic,Duration.ofMinutes(10), Instant.ofEpochSecond(500));
-        subTask1 = new SubTask("Второй сабтаск", "-", Status.NEW, 5, epic,Duration.ofMinutes(15), Instant.ofEpochSecond(50000));
-
-        taskManager = Managers.getDefault();
-    }
+class InMemoryTaskManagerTest extends AbstractManagerTest  {
 
     @Test
     void testAddNewTask() {

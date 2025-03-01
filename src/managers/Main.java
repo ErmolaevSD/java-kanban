@@ -33,6 +33,7 @@ public class Main {
 
         taskManager.addNewTask(task);
         taskManager.addNewTask(task1);
+        taskManager.addNewTask(task1);
 
         System.out.println(task.getStartTime());
 

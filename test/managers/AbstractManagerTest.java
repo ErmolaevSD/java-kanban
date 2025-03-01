@@ -21,8 +21,10 @@ public abstract class AbstractManagerTest {
     protected Task task1;
     protected Epic epic;
     protected SubTask subTask;
+    protected SubTask subTask1;
     protected TaskManager taskManager;
     protected HistoryManager historyManager;
+
 
 
     @BeforeEach
@@ -36,9 +38,11 @@ public abstract class AbstractManagerTest {
         historyManager = Managers.getDefaultHistory();
         taskManager = Managers.getFileBackedTaskManager(file);
 
-        task1 = new Task("Первая задача", "-", Status.NEW, 2, Duration.ofMinutes(15), Instant.now().minusSeconds(10000));
-        task = new Task("Первая задача", "-", Status.NEW, 1, Duration.ofMinutes(1), Instant.now().minusSeconds(100));
-        epic = new Epic("Первый эпик", "-", Status.NEW, 3, Duration.ofMinutes(5), Instant.now().minusSeconds(50));
-        subTask = new SubTask("Первый сабтаск", "-", Status.NEW, 4, epic,Duration.ofMinutes(10), Instant.now().minusSeconds(6000));
+        task1 = new Task("Первая задача", "-", Status.NEW, 2, Duration.ofMinutes(10), Instant.ofEpochSecond(1000000));
+        task = new Task("Первая задача", "-", Status.NEW, 1, Duration.ofMinutes(100), Instant.ofEpochSecond(10));
+        epic = new Epic("Первый эпик", "-", Status.NEW, 3, Duration.ofMinutes(5), Instant.ofEpochSecond(1000));
+        subTask = new SubTask("Первый сабтаск", "-", Status.NEW, 4, epic,Duration.ofMinutes(10), Instant.ofEpochSecond(10000));
+        subTask1 = new SubTask("Второй сабтаск", "-", Status.NEW, 5, epic,Duration.ofMinutes(15), Instant.ofEpochSecond(50000));
     }
 }
+

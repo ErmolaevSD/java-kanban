@@ -3,11 +3,6 @@ package managers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tasks.Epic;
-import tasks.Status;
-import tasks.SubTask;
-import tasks.Task;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,12 +12,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ManagersTest {
 
-    private File file;
-
     @BeforeEach
     void unit() {
         try {
-            file = Files.createTempFile("data-",".csv").toFile();
+            File file = Files.createTempFile("data-",".csv").toFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -42,7 +35,7 @@ class ManagersTest {
 
     @Test
     void getFileBackedTaskManager() {
-        Path filePath = null;
+        Path filePath;
         try {
             filePath = Files.createTempFile("data-", "csv");
         } catch (IOException e) {

@@ -1,34 +1,15 @@
 package managers;
 
-import tasks.Epic;
+import exception.IntersectionTaskException;
 import tasks.Status;
 import tasks.SubTask;
 import tasks.Task;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest {
-
-    private TaskManager taskManager;
-    private Task task;
-    private Epic epic;
-    private SubTask subTask;
-    private SubTask subTask1;
-
-    @BeforeEach
-    public void unit() {
-        task = new Task("Первая задача", "-", Status.NEW, 1);
-        epic = new Epic("Первый эпик", "-", Status.NEW, 3);
-        subTask = new SubTask("Первый сабтаск", "-", Status.NEW, 4, epic);
-        subTask1 = new SubTask("Второй сабтаск", "-", Status.NEW, 5, epic);
-
-        taskManager = Managers.getDefault();
-    }
+class InMemoryTaskManagerTest extends AbstractManagerTest  {
 
     @Test
     void testAddNewTask() {
@@ -195,5 +176,25 @@ class InMemoryTaskManagerTest {
 
         boolean statusIn_Progress = epic.getStatus().equals(Status.IN_PROGRESS);
         assertTrue(statusIn_Progress);
+    }
+
+
+    @Test
+    void testGetIntersectionTaskException() {
+        taskManager.addNewTask(task);
+
+        assertThrows(IntersectionTaskException.class, () -> taskManager.addNewEpic(epic));
+    }
+
+    @Test
+    void getSortedTask() {
+        taskManager.addNewSubTask(subTask1);
+        taskManager.addNewTask(task);
+
+        String expected ="[Task{nameTask='Первая задача', descriptionTask='-', status=NEW}, SubTask{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
+        String actually = taskManager.getTaskPriotity().toString();
+
+        assertEquals(expected, actually);
+        assertTrue(task.getStartTime().isBefore(subTask1.getStartTime()));
     }
 }

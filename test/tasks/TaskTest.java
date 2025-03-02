@@ -1,19 +1,26 @@
 package tasks;
 
+import exception.ManagerTimeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 class TaskTest {
 
     private Task task1;
     private Task task2;
+    private Task task3;
 
     @BeforeEach
     public void unit() {
-        task1 = new Task("Приготовить кофе", "Добавить молоко", Status.NEW, 1);
+        task1 = new Task("Приготовить кофе", "Добавить молоко", Status.NEW, 1, Duration.ofMinutes(20), Instant.ofEpochSecond(10));
 
-        task2 = new Task("Убрать квартиру", "Качественно", Status.NEW, 1);
+        task2 = new Task("Убрать квартиру", "Качественно", Status.NEW, 1,Duration.ofMinutes(5),Instant.ofEpochSecond(100));
+
+        task3 = new Task("Убрать квартиру", "Качественно", Status.NEW, 1,Duration.ofMinutes(5),null);
     }
 
     @Test
@@ -105,5 +112,18 @@ class TaskTest {
         String string = task1.toString();
 
         assertEquals(toString, string);
+    }
+
+    @Test
+    void testGetEndTimeWithStartTimeNull() {
+        assertThrows(ManagerTimeException.class, () -> task3.getEndTime());
+    }
+
+    @Test
+    void testGetEndTime() {
+        Instant expected = Instant.ofEpochSecond(1210);
+        Instant actually = task1.getEndTime();
+
+        assertEquals(expected, actually);
     }
 }

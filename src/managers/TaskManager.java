@@ -7,8 +7,10 @@ import tasks.Task;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 public interface TaskManager {
+
     Task addNewTask(Task task);
 
     Epic addNewEpic(Epic epic);
@@ -17,7 +19,7 @@ public interface TaskManager {
 
     List<SubTask> getSubTasks(Epic epic);
 
-    List<SubTask> printAllSubtasks(Epic epic);
+    List<SubTask> getAllSubtasks(Epic epic);
 
     List<Task> getListTask();
 
@@ -51,6 +53,5 @@ public interface TaskManager {
 
     Status newStatus(Epic epic);
 
-    int getIdentificatorID();
-
+    TreeSet<Task> getTaskPriotity();
 }

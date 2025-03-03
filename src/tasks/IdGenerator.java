@@ -8,7 +8,6 @@ public class IdGenerator {
     }
 
     public Integer getIdentificationID() {
-        identificationID++;
-        return identificationID;
+        return identificationID++;
     }
 }

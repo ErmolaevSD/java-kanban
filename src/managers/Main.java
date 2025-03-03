@@ -25,14 +25,12 @@ public class Main {
         SubTask subTask1 = new SubTask("Первый сабтаск", "-", Status.NEW, 5, epic, Duration.ofMinutes(20),Instant.ofEpochSecond(10));
 
         fileBackedTaskManager.addNewTask(task);
-        fileBackedTaskManager.addNewTask(task1);
         fileBackedTaskManager.addNewSubTask(subTask);
         fileBackedTaskManager.addNewSubTask(subTask1);
         fileBackedTaskManager.addNewEpic(epic);
 
 
         taskManager.addNewTask(task);
-        taskManager.addNewTask(task1);
         taskManager.addNewTask(task1);
 
         System.out.println(task.getStartTime());

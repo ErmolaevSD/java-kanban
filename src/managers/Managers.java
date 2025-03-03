@@ -13,11 +13,11 @@ public class Managers {
         return new InMemoryHistoryManager();
     }
 
-    public static TaskManager getFileBackedTaskManager (File file) {
+    public static TaskManager getFileBackedTaskManager(File file) {
         return new FileBackedTaskManager(getDefaultHistory(),file);
     }
 
-    public static FileBackedTaskManager loadFrom (File file) {
+    public static FileBackedTaskManager loadFrom(File file) {
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(getDefaultHistory(), file);
         fileBackedTaskManager.loadFromFile(file);
         return fileBackedTaskManager;

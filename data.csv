@@ -1,0 +1,5 @@
+id,type,name,status,description,epic,duration,startTime
+0,TASK,Первая задача,NEW,-,PT5M,1970-01-01T13:53:20Z
+3,EPIC,Первый эпик,NEW,-,PT10M,1970-01-01T00:00:10Z
+1,SUBTASK,Первый сабтаск,NEW,-,3,PT20M,1970-01-01T00:00:10Z
+2,SUBTASK,Первый сабтаск,NEW,-,3,PT20M,1970-01-01T00:00:10Z

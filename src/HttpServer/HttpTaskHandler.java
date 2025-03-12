@@ -1,25 +1,23 @@
 package HttpServer;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
+import exception.ErrorResponse;
+import exception.IntersectionTaskException;
+import exception.NotTaskException;
 import managers.TaskManager;
 import tasks.Task;
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 public class HttpTaskHandler extends BaseHttpHandler {
 
-    TaskManager taskManager;
-    Gson gsonBuilder = new GsonBuilder()
-            .registerTypeAdapter(Instant.class, new InstantTypeAdapter())
-            .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
-            .create();
 
     public HttpTaskHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
@@ -28,68 +26,70 @@ public class HttpTaskHandler extends BaseHttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        String path = exchange.getRequestURI().getPath();
-        String metod = exchange.getRequestMethod();
-        String[] paths = path.split("/");
+        String method = exchange.getRequestMethod();
+        String[] paths = exchange.getRequestURI().getPath().split("/");
 
         try {
-            switch (metod) {
+            switch (method) {
                 case "GET":
                     getTasks(exchange, paths);
                 case "POST":
-                    postTasks(paths);
+                    postTasks(exchange);
                 case "DELETE":
-                    deleteTasks(exchange,paths);
+                    deleteTasks(exchange, paths);
                 default:
-                    break;
+                    ErrorResponse errorMessage = new ErrorResponse("Обработка данного метода не предусмотренна", 500, exchange.getRequestURI().getPath());
+                    String jsonTask = gsonBuilder.toJson(errorMessage);
+                    sendText(exchange, jsonTask, 500);
             }
-        } catch (Exception e) {
-            System.out.println("Ошибка: " + e.getMessage());
+        } catch (NotTaskException e) {
+            sendText(exchange, e.getMessage(), 404);
+        } catch (IntersectionTaskException e) {
+            sendText(exchange, e.getMessage(), 406);
+
         } finally {
             exchange.close();
         }
     }
 
     private void getTasks(HttpExchange exchange, String[] paths) throws IOException {
-            if (paths.length == 2) {
-                List<Task> allTasks = taskManager.getListTask();
-                String jsonTasks = gsonBuilder.toJson(allTasks);
-                sendText(exchange, jsonTasks);
 
-            } else if (paths.length == 3) {
-                int idTasks = Integer.parseInt(paths[2]);
-                Task task = taskManager.findTask(idTasks);
-                String jsonTask = gsonBuilder.toJson(task);
-                sendText(exchange, jsonTask);
-            }
+        if (paths.length == 2) {
+            List<Task> allTasks = taskManager.getListTask();
+            String jsonTasks = gsonBuilder.toJson(allTasks);
+            sendText(exchange, jsonTasks, 200);
+
+            Task task = gsonBuilder.fromJson(jsonTasks, Task.class);
+        } else if (paths.length == 3) {
+            int idTasks = Integer.parseInt(paths[2]);
+            Task task = taskManager.findTask(idTasks);
+            String jsonTask = gsonBuilder.toJson(task);
+            sendText(exchange, jsonTask, 200);
         }
-
-    private void deleteTasks(HttpExchange exchange, String[] paths) {
     }
 
-    private void postTasks(String[] paths) {
+    private void deleteTasks(HttpExchange exchange, String[] paths) throws IOException {
+        int idTasks = Integer.parseInt(paths[2]);
+        Task deteteTask = taskManager.deleteTask(taskManager.findTask(idTasks));
+        String jsonTask = gsonBuilder.toJson(deteteTask);
+        sendText(exchange, jsonTask, 200);
     }
 
+    private void postTasks(HttpExchange exchange) throws IOException {
+        InputStream inputStream = exchange.getRequestBody();
+        String bode = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        JsonElement jsonElement = JsonParser.parseString(bode);
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        Task task = gsonBuilder.fromJson(jsonObject, Task.class);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        if (isNull(task.getId())) {
+            Task createdTasks = taskManager.addNewTask(task);
+            String jsonTask = gsonBuilder.toJson(createdTasks);
+            sendText(exchange, jsonTask, 201);
+        } else {
+            Task updateTask = taskManager.updateTask(task);
+            String jsonTask = gsonBuilder.toJson(updateTask);
+            sendText(exchange, jsonTask, 201);
+        }
+    }
 }

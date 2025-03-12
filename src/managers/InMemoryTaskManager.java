@@ -1,8 +1,11 @@
 package managers;
 
 import exception.IntersectionTaskException;
+import exception.NotTaskException;
 import tasks.*;
 import java.util.*;
+
+import static java.util.Objects.isNull;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -142,6 +145,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task findTask(Integer id) {
+        if (isNull(listTask.get(id))) {
+            String errorMessage = String.format("Задача с id %s не найдена", id);
+            throw new NotTaskException(errorMessage);
+        }
         historyManager.add(listTask.get(id));
         return listTask.get(id);
     }
@@ -187,6 +194,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task updateTask(Task newTask) {
+        try {
+            validTask(newTask);
+        } catch (IntersectionTaskException e) {
+            throw new IntersectionTaskException(e.getMessage());
+        }
         if (listTask.containsKey(newTask.getId())) {
             Task existingTask = listTask.get(newTask.getId());
             existingTask.setName(newTask.getName());
@@ -202,6 +214,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic updateEpic(Epic newEpic) {
+        try {
+            validTask(newEpic);
+        } catch (IntersectionTaskException e) {
+            throw new IntersectionTaskException(e.getMessage());
+        }
         if (listEpicTask.containsKey(newEpic.getId())) {
             Epic existingTask = listEpicTask.get(newEpic.getId());
             existingTask.setName(newEpic.getName());
@@ -216,6 +233,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public SubTask updateSub(SubTask newSub) {
+        try {
+            validTask(newSub);
+        } catch (IntersectionTaskException e) {
+            throw new IntersectionTaskException(e.getMessage());
+        }
         if (listSubTask.containsKey(newSub.getId())) {
             SubTask existingTask = listSubTask.get(newSub.getId());
             existingTask.setName(newSub.getName());

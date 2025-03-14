@@ -1,5 +1,6 @@
 package tasks;
 
+import com.google.gson.annotations.Expose;
 import exception.ManagerSaveException;
 import exception.ManagerTimeException;
 

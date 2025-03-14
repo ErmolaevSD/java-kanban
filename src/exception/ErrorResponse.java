@@ -1,6 +1,6 @@
 package exception;
 
-public class ErrorResponse {
+public class ErrorResponse extends RuntimeException {
     private String errorMessage;
     private Integer errorCode;
     private String url;

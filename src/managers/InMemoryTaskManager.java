@@ -105,6 +105,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task deleteTask(Task task) {
+        if (isNull(listTask.get(task.getId()))) {
+            String errorMessage = String.format("Задача с id %s не найдена", task.getId());
+            throw new NotTaskException(errorMessage);
+        }
         historyManager.remove(task.getId());
         historyManager.deleteTaskHistory(task.getId());
         getTaskPriotity();
@@ -113,6 +117,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic deleteEpicTask(Epic epic) {
+        if (isNull(listEpicTask.get(epic.getId()))) {
+            String errorMessage = String.format("Эпик с id %s не найдена", epic.getId());
+            throw new NotTaskException(errorMessage);
+        }
         List<SubTask> subTasksListByEpic = epic.getSubTasks();
         List<SubTask> toRemove = new ArrayList<>();
         for (SubTask subTask : listSubTask.values()) {
@@ -155,12 +163,20 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic findEpicTask(Integer id) {
+        if (isNull(listEpicTask.get(id))) {
+            String errorMessage = String.format("Эпик с id %s не найден", id);
+            throw new NotTaskException(errorMessage);
+        }
         historyManager.add(listEpicTask.get(id));
         return listEpicTask.get(id);
     }
 
     @Override
     public SubTask findSubTask(Integer id) {
+        if (isNull(listSubTask.get(id))) {
+            String errorMessage = String.format("Подзадача с id %s не найдена", id);
+            throw new NotTaskException(errorMessage);
+        }
         historyManager.add(listSubTask.get(id));
         return listSubTask.get(id);
     }

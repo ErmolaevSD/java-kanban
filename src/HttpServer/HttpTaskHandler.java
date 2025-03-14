@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 import exception.ErrorResponse;
 import exception.IntersectionTaskException;
+import exception.NotIntegerIdException;
 import exception.NotTaskException;
 import managers.TaskManager;
 import tasks.Task;
@@ -13,11 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-
 import static java.util.Objects.isNull;
 
 public class HttpTaskHandler extends BaseHttpHandler {
-
 
     public HttpTaskHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
@@ -33,10 +32,13 @@ public class HttpTaskHandler extends BaseHttpHandler {
             switch (method) {
                 case "GET":
                     getTasks(exchange, paths);
+                    break;
                 case "POST":
                     postTasks(exchange);
+                    break;
                 case "DELETE":
                     deleteTasks(exchange, paths);
+                    break;
                 default:
                     ErrorResponse errorMessage = new ErrorResponse("Обработка данного метода не предусмотренна", 500, exchange.getRequestURI().getPath());
                     String jsonTask = gsonBuilder.toJson(errorMessage);
@@ -44,24 +46,23 @@ public class HttpTaskHandler extends BaseHttpHandler {
             }
         } catch (NotTaskException e) {
             sendText(exchange, e.getMessage(), 404);
-        } catch (IntersectionTaskException e) {
+        } catch (IntersectionTaskException | NotIntegerIdException e) {
             sendText(exchange, e.getMessage(), 406);
-
-        } finally {
-            exchange.close();
         }
     }
 
     private void getTasks(HttpExchange exchange, String[] paths) throws IOException {
-
         if (paths.length == 2) {
             List<Task> allTasks = taskManager.getListTask();
             String jsonTasks = gsonBuilder.toJson(allTasks);
             sendText(exchange, jsonTasks, 200);
-
-            Task task = gsonBuilder.fromJson(jsonTasks, Task.class);
         } else if (paths.length == 3) {
-            int idTasks = Integer.parseInt(paths[2]);
+            int idTasks = 0;
+            try {
+                idTasks = Integer.parseInt(paths[2]);
+            } catch (NumberFormatException e) {
+                throw new NotIntegerIdException("В качестве id введено некорректное значение.");
+            }
             Task task = taskManager.findTask(idTasks);
             String jsonTask = gsonBuilder.toJson(task);
             sendText(exchange, jsonTask, 200);
@@ -69,10 +70,15 @@ public class HttpTaskHandler extends BaseHttpHandler {
     }
 
     private void deleteTasks(HttpExchange exchange, String[] paths) throws IOException {
-        int idTasks = Integer.parseInt(paths[2]);
-        Task deteteTask = taskManager.deleteTask(taskManager.findTask(idTasks));
-        String jsonTask = gsonBuilder.toJson(deteteTask);
-        sendText(exchange, jsonTask, 200);
+        int idTasks = 0;
+        try {
+            idTasks = Integer.parseInt(paths[2]);
+        } catch (NumberFormatException e) {
+            throw new NotIntegerIdException("В качестве id введено некорректное значение.");
+        }
+            Task deteteTask = taskManager.deleteTask(taskManager.findTask(idTasks));
+            String jsonTask = gsonBuilder.toJson(deteteTask);
+            sendText(exchange, jsonTask, 200);
     }
 
     private void postTasks(HttpExchange exchange) throws IOException {
@@ -82,7 +88,7 @@ public class HttpTaskHandler extends BaseHttpHandler {
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         Task task = gsonBuilder.fromJson(jsonObject, Task.class);
 
-        if (isNull(task.getId())) {
+        if (isNull(task.getId()) || isNull(taskManager.findTask(task.getId()))) {
             Task createdTasks = taskManager.addNewTask(task);
             String jsonTask = gsonBuilder.toJson(createdTasks);
             sendText(exchange, jsonTask, 201);

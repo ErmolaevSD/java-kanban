@@ -22,6 +22,7 @@ public class HttpTaskServer {
         httpServer.createContext("/history", new HttpHistoryHandler(taskManager));
         httpServer.createContext("/prioritized", new HttpPrioritiHandler(taskManager));
     }
+
     public void startTaskServer() {
         System.out.printf("Сервер запущен и доступен по адресу: http://%s:%d\n", hostname, port);
         httpServer.start();

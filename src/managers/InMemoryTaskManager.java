@@ -5,10 +5,8 @@ import exception.ManagerSaveException;
 import exception.ManagerTimeException;
 import exception.NotTaskException;
 import tasks.*;
-
 import java.time.Instant;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -31,7 +29,7 @@ public class InMemoryTaskManager implements TaskManager {
         return (int) (firstStartTime - twoStartTime);
     }
 
-    public int nextID(){
+    public int nextID() {
         return identificationID++;
     }
 
@@ -337,8 +335,7 @@ public class InMemoryTaskManager implements TaskManager {
         List<Integer> subTaskByEpicId = epic.getSubTasksID();
         List<SubTask> subTasks = getSubTasks(subTaskByEpicId);
 
-        if (subTasks.isEmpty()) {
-        } else {
+        if (!(subTasks.isEmpty())) {
             epic.setStartTime(Instant.MIN);
             for (Integer id : subTaskByEpicId) {
                 for (SubTask subTask : subTasks) {

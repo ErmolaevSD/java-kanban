@@ -1,6 +1,6 @@
-package serverRunner;
+package serverrunner;
 
-import httpServer.HttpTaskServer;
+import httpserver.HttpTaskServer;
 import managers.Managers;
 import managers.TaskManager;
 

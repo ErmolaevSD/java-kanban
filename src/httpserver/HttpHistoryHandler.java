@@ -1,4 +1,4 @@
-package httpServer;
+package httpserver;
 
 import com.sun.net.httpserver.HttpExchange;
 import exception.IntersectionTaskException;
@@ -8,11 +8,11 @@ import managers.TaskManager;
 import tasks.Task;
 
 import java.io.IOException;
-import java.util.TreeSet;
+import java.util.List;
 
-public class HttpPrioritiHandler extends BaseHttpHandler {
+public class HttpHistoryHandler extends BaseHttpHandler {
 
-    public HttpPrioritiHandler(TaskManager taskManager) {
+    public HttpHistoryHandler(TaskManager taskManager) {
         BaseHttpHandler.taskManager = taskManager;
     }
 
@@ -24,7 +24,7 @@ public class HttpPrioritiHandler extends BaseHttpHandler {
 
         try {
             if (method.equals("GET") && paths.length == 2) {
-                TreeSet<Task> historyTask = taskManager.getTaskPriotity();
+                List<Task> historyTask = historyManager.getHistory();
                 String jsonTasks = gsonBuilder.toJson(historyTask);
                 sendText(exchange, jsonTasks, 200);
             } else {

@@ -1,7 +1,6 @@
-package httpServer;
+package httpserver;
 
 import com.sun.net.httpserver.HttpExchange;
-import exception.ErrorResponse;
 import exception.IntersectionTaskException;
 import exception.NotIntegerIdException;
 import exception.NotTaskException;
@@ -9,11 +8,11 @@ import managers.TaskManager;
 import tasks.Task;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.TreeSet;
 
-public class HttpHistoryHandler extends BaseHttpHandler {
+public class HttpPrioritiHandler extends BaseHttpHandler {
 
-    public HttpHistoryHandler(TaskManager taskManager) {
+    public HttpPrioritiHandler(TaskManager taskManager) {
         BaseHttpHandler.taskManager = taskManager;
     }
 
@@ -25,7 +24,7 @@ public class HttpHistoryHandler extends BaseHttpHandler {
 
         try {
             if (method.equals("GET") && paths.length == 2) {
-                List<Task> historyTask = historyManager.getHistory();
+                TreeSet<Task> historyTask = taskManager.getTaskPriotity();
                 String jsonTasks = gsonBuilder.toJson(historyTask);
                 sendText(exchange, jsonTasks, 200);
             } else {

@@ -1,10 +1,9 @@
-package httpServer;
+package httpserver;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
-import exception.ErrorResponse;
 import exception.IntersectionTaskException;
 import exception.NotIntegerIdException;
 import exception.NotTaskException;

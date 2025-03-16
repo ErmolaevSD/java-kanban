@@ -29,7 +29,7 @@ public class HttpHistoryHandler extends BaseHttpHandler {
                 String jsonTasks = gsonBuilder.toJson(historyTask);
                 sendText(exchange, jsonTasks, 200);
             } else {
-                ErrorResponse errorMessage = new ErrorResponse("Обработка данного метода не предусмотренна", 500, exchange.getRequestURI().getPath());
+                String errorMessage = "Обработка данного метода " + method + " не предусмотренна";
                 String jsonTask = gsonBuilder.toJson(errorMessage);
                 sendText(exchange, jsonTask, 500);
             }

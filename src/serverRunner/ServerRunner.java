@@ -1,4 +1,4 @@
-package ServerRunner;
+package serverRunner;
 
 import httpServer.HttpTaskServer;
 import managers.Managers;
@@ -11,5 +11,6 @@ public class ServerRunner {
     public static void main(String[] args) throws IOException {
         TaskManager taskManager = Managers.getDefault();
         HttpTaskServer httpTaskServer = new HttpTaskServer(8080, "localhost", taskManager);
+        httpTaskServer.startTaskServer();
     }
 }

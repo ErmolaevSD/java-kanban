@@ -42,7 +42,7 @@ public class HttpEpicHandler extends BaseHttpHandler {
                     deleteEpic(exchange, paths);
                     break;
                 default:
-                    ErrorResponse errorMessage = new ErrorResponse("Обработка данного метода не предусмотренна", 500, exchange.getRequestURI().getPath());
+                    String errorMessage = "Обработка данного метода " + method + " не предусмотренна";
                     String jsonTask = gsonBuilder.toJson(errorMessage);
                     sendText(exchange, jsonTask, 500);
             }

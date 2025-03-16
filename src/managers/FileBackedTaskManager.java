@@ -165,7 +165,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     case EPIC ->
                             listEpicTask.put(Integer.parseInt(lineIsTask[0]), new Epic(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0]),Duration.parse(lineIsTask[5]), Instant.parse(lineIsTask[6])));
                     case SUBTASK ->
-                            listSubTask.put(Integer.parseInt(lineIsTask[0]), new SubTask(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0]), listEpicTask.get(Integer.valueOf(lineIsTask[5])),Duration.parse(lineIsTask[6]), Instant.parse(lineIsTask[7])));
+                            listSubTask.put(Integer.parseInt(lineIsTask[0]), new SubTask(lineIsTask[2], lineIsTask[4], status, Integer.parseInt(lineIsTask[0]), Integer.valueOf(lineIsTask[5]),Duration.parse(lineIsTask[6]), Instant.parse(lineIsTask[7])));
                 }
 
                 int id = Integer.parseInt(lineIsTask[0]);

@@ -1,4 +1,4 @@
-package HttpServer;
+package httpServer;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -9,17 +9,19 @@ import exception.IntersectionTaskException;
 import exception.NotIntegerIdException;
 import exception.NotTaskException;
 import managers.TaskManager;
-import tasks.Task;
+import tasks.Epic;
+import tasks.SubTask;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+
 import static java.util.Objects.isNull;
 
-public class HttpTaskHandler extends BaseHttpHandler {
+public class HttpEpicHandler extends BaseHttpHandler {
 
-    public HttpTaskHandler(TaskManager taskManager) {
-        this.taskManager = taskManager;
+    public HttpEpicHandler(TaskManager taskManager) {
+        BaseHttpHandler.taskManager = taskManager;
     }
 
     @Override
@@ -31,69 +33,78 @@ public class HttpTaskHandler extends BaseHttpHandler {
         try {
             switch (method) {
                 case "GET":
-                    getTasks(exchange, paths);
+                    getEpic(exchange, paths);
                     break;
                 case "POST":
-                    postTasks(exchange);
+                    postEpic(exchange);
                     break;
                 case "DELETE":
-                    deleteTasks(exchange, paths);
+                    deleteEpic(exchange, paths);
                     break;
                 default:
                     ErrorResponse errorMessage = new ErrorResponse("Обработка данного метода не предусмотренна", 500, exchange.getRequestURI().getPath());
                     String jsonTask = gsonBuilder.toJson(errorMessage);
                     sendText(exchange, jsonTask, 500);
             }
-        } catch (NotTaskException e) {
+        } catch (NotTaskException | NotIntegerIdException  e) {
             sendText(exchange, e.getMessage(), 404);
-        } catch (IntersectionTaskException | NotIntegerIdException e) {
+        } catch (IntersectionTaskException e) {
             sendText(exchange, e.getMessage(), 406);
+        } finally {
+            exchange.close();
         }
     }
 
-    private void getTasks(HttpExchange exchange, String[] paths) throws IOException {
+    private void getEpic(HttpExchange exchange, String[] paths) throws IOException {
         if (paths.length == 2) {
-            List<Task> allTasks = taskManager.getListTask();
-            String jsonTasks = gsonBuilder.toJson(allTasks);
+            List<Epic> allEpic = taskManager.getListEpicTask();
+            String jsonTasks = gsonBuilder.toJson(allEpic);
             sendText(exchange, jsonTasks, 200);
+
         } else if (paths.length == 3) {
-            int idTasks = 0;
+            int idEpic;
             try {
-                idTasks = Integer.parseInt(paths[2]);
+                idEpic = Integer.parseInt(paths[2]);
             } catch (NumberFormatException e) {
                 throw new NotIntegerIdException("В качестве id введено некорректное значение.");
             }
-            Task task = taskManager.findTask(idTasks);
-            String jsonTask = gsonBuilder.toJson(task);
+            Epic epic = taskManager.findEpicTask(idEpic);
+            String jsonTask = gsonBuilder.toJson(epic);
             sendText(exchange, jsonTask, 200);
+        } else if (paths.length == 4 && paths[3].equals("subtasks")) {
+            try {
+                int idEpic = Integer.parseInt(paths[2]);
+                List<SubTask> subTasksByEpic = taskManager.getSubTasks(taskManager.findEpicTask(idEpic).getSubTasksID());
+                String jsonSubTasksByEpic = gsonBuilder.toJson(subTasksByEpic);
+                sendText(exchange, jsonSubTasksByEpic, 200);
+            } catch (NotTaskException e) {
+                throw new NotTaskException(e.getMessage());
+            }
         }
     }
 
-    private void deleteTasks(HttpExchange exchange, String[] paths) throws IOException {
-        int idTasks = 0;
-        try {
-            idTasks = Integer.parseInt(paths[2]);
-        } catch (NumberFormatException e) {
-            throw new NotIntegerIdException("В качестве id введено некорректное значение.");
-        }
-            Task deteteTask = taskManager.deleteTask(taskManager.findTask(idTasks));
+
+
+    private void deleteEpic(HttpExchange exchange, String[] paths) throws IOException {
+            int idEpic = Integer.parseInt(paths[2]);
+            Epic deteteTask = taskManager.deleteEpicTask(taskManager.findEpicTask(idEpic));
             String jsonTask = gsonBuilder.toJson(deteteTask);
             sendText(exchange, jsonTask, 200);
     }
 
-    private void postTasks(HttpExchange exchange) throws IOException {
+    private void postEpic(HttpExchange exchange) throws IOException {
         InputStream inputStream = exchange.getRequestBody();
         String bode = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
         JsonElement jsonElement = JsonParser.parseString(bode);
         JsonObject jsonObject = jsonElement.getAsJsonObject();
-        Task task = gsonBuilder.fromJson(jsonObject, Task.class);
+        Epic epic = gsonBuilder.fromJson(jsonObject, Epic.class);
 
-        if (isNull(task.getId()) || isNull(taskManager.findTask(task.getId()))) {
-            Task createdTasks = taskManager.addNewTask(task);
+        if (isNull(epic.getId())) {
+            Epic createdTasks = taskManager.addNewEpic(epic);
             String jsonTask = gsonBuilder.toJson(createdTasks);
             sendText(exchange, jsonTask, 201);
         } else {
-            Task updateTask = taskManager.updateTask(task);
+            Epic updateTask = taskManager.updateEpic(epic);
             String jsonTask = gsonBuilder.toJson(updateTask);
             sendText(exchange, jsonTask, 201);
         }

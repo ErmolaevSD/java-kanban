@@ -45,7 +45,6 @@ class FileBackedTaskManagerTest extends AbstractManagerTest {
 
     @Test
     void deleteEpicTask() {
-        taskManager.addNewEpic(epic);
         taskManager.addNewSubTask(subTask);
         taskManager.deleteEpicTask(epic);
 

@@ -5,6 +5,9 @@ import tasks.Status;
 import tasks.SubTask;
 import tasks.Task;
 import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +25,6 @@ class InMemoryTaskManagerTest extends AbstractManagerTest  {
 
     @Test
     void testAddNewEpic() {
-        taskManager.addNewEpic(epic);
         String nameTask = "[Epic{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
         String name = taskManager.getListEpicTask().toString();
 
@@ -40,12 +42,11 @@ class InMemoryTaskManagerTest extends AbstractManagerTest  {
 
     @Test
     void testPrintAllSubtasksByEpic() {
-        taskManager.addNewEpic(epic);
         taskManager.addNewSubTask(subTask);
         taskManager.addNewSubTask(subTask1);
 
-        String listSubTaskByEpic = taskManager.findEpicTask(epic.getId()).getSubTasks().toString();
-        String nameSubTask = "[SubTask{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}, SubTask{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
+        String listSubTaskByEpic = taskManager.findEpicTask(epic.getId()).getSubTasksID().toString();
+        String nameSubTask = "[1, 2]";
 
         assertEquals(nameSubTask, listSubTaskByEpic);
     }
@@ -62,7 +63,6 @@ class InMemoryTaskManagerTest extends AbstractManagerTest  {
 
     @Test
     void testGetListEpicTask() {
-        taskManager.addNewEpic(epic);
 
         String listTask = taskManager.getListEpicTask().toString();
         String nameTask = "[Epic{nameTask='Первый эпик', descriptionTask='-', status=NEW}]";
@@ -74,7 +74,7 @@ class InMemoryTaskManagerTest extends AbstractManagerTest  {
     void testGetListSubTask() {
         taskManager.addNewSubTask(subTask);
         taskManager.addNewSubTask(subTask1);
-        String nameSubTask = "[SubTask{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}, SubTask{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
+        String nameSubTask = "[SubTask{nameTask='Первый сабтаск', descriptionTask='-', status=NEW}, SubTask{nameTask='Второй сабтаск', descriptionTask='-', status=DONE}]";
 
         assertEquals(nameSubTask,taskManager.getListSubTask().toString());
     }
@@ -93,13 +93,12 @@ class InMemoryTaskManagerTest extends AbstractManagerTest  {
 
     @Test
     void testDeleteEpicTask() {
-        taskManager.addNewEpic(epic);
         taskManager.addNewSubTask(subTask);
         taskManager.addNewSubTask(subTask1);
 
 
         assertNotNull(taskManager.getListEpicTask().toString());
-        assertNotNull(taskManager.findEpicTask(epic.getId()).getSubTasks().toString());
+        assertNotNull(taskManager.findEpicTask(epic.getId()).getSubTasksID().toString());
 
         taskManager.deleteEpicTask(epic);
         String epicNull = "[]";
@@ -140,9 +139,11 @@ class InMemoryTaskManagerTest extends AbstractManagerTest  {
 
     @Test
     void findSubTask() {
-        taskManager.addNewSubTask(subTask);
-        String nameTask = subTask.toString();
-        String findTask = taskManager.findSubTask(subTask.getId()).toString();
+        taskManager.addNewEpic(epic);
+        SubTask parentSubTask = new SubTask("Первый сабтаск", "-", Status.NEW, null, epic.getId(), Duration.ofMinutes(10), Instant.ofEpochSecond(100000000));
+        taskManager.addNewSubTask(parentSubTask);
+        String nameTask = parentSubTask.toString();
+        String findTask = taskManager.findSubTask(parentSubTask.getId()).toString();
 
         assertEquals(nameTask, findTask);
     }
@@ -165,13 +166,11 @@ class InMemoryTaskManagerTest extends AbstractManagerTest  {
 
     @Test
     void newStatus() {
-        taskManager.addNewEpic(epic);
         taskManager.addNewSubTask(subTask);
         boolean statusNew = epic.getStatus().equals(Status.NEW);
 
         assertTrue(statusNew);
 
-        taskManager.findSubTask(subTask.getId()).setStatus(Status.DONE);
         taskManager.addNewSubTask(subTask1);
 
         boolean statusIn_Progress = epic.getStatus().equals(Status.IN_PROGRESS);
@@ -181,7 +180,7 @@ class InMemoryTaskManagerTest extends AbstractManagerTest  {
 
     @Test
     void testGetIntersectionTaskException() {
-        taskManager.addNewTask(task);
+        taskManager.addNewTask(task3);
 
         assertThrows(IntersectionTaskException.class, () -> taskManager.addNewEpic(epic));
     }
@@ -191,7 +190,7 @@ class InMemoryTaskManagerTest extends AbstractManagerTest  {
         taskManager.addNewSubTask(subTask1);
         taskManager.addNewTask(task);
 
-        String expected ="[Task{nameTask='Первая задача', descriptionTask='-', status=NEW}, SubTask{nameTask='Второй сабтаск', descriptionTask='-', status=NEW}]";
+        String expected ="[Task{nameTask='Первая задача', descriptionTask='-', status=NEW}, SubTask{nameTask='Второй сабтаск', descriptionTask='-', status=DONE}]";
         String actually = taskManager.getTaskPriotity().toString();
 
         assertEquals(expected, actually);

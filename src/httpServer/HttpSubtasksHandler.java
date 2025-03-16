@@ -1,16 +1,15 @@
-package HttpServer;
+package httpServer;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import exception.ErrorResponse;
 import exception.IntersectionTaskException;
+import exception.NotIntegerIdException;
 import exception.NotTaskException;
 import managers.TaskManager;
 import tasks.SubTask;
-import tasks.Task;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,7 +43,7 @@ public class HttpSubtasksHandler extends BaseHttpHandler {
                     String jsonTask = gsonBuilder.toJson(errorMessage);
                     sendText(exchange, jsonTask, 500);
             }
-        } catch (NotTaskException e) {
+        } catch (NotTaskException | NotIntegerIdException e) {
             sendText(exchange, e.getMessage(), 404);
         } catch (IntersectionTaskException e) {
             sendText(exchange, e.getMessage(), 406);

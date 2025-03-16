@@ -8,9 +8,8 @@ class InMemoryHistoryManagerTest extends AbstractManagerTest{
 
     @Test
     void testAdd() {
-        Managers.getDefault().addNewTask(task);
-        Managers.getDefault().addNewTask(task1);
-        Managers.getDefault().addNewEpic(epic);
+        taskManager.addNewTask(task);
+        taskManager.addNewTask(task1);
 
         historyManager.add(task);
         historyManager.add(task1);
@@ -26,6 +25,9 @@ class InMemoryHistoryManagerTest extends AbstractManagerTest{
     void getHistory() {
         int historySize = 3;
 
+        taskManager.addNewTask(task);
+        taskManager.addNewSubTask(subTask);
+
         historyManager.add(task);
         historyManager.add(epic);
         historyManager.add(subTask);
@@ -38,23 +40,19 @@ class InMemoryHistoryManagerTest extends AbstractManagerTest{
     @Test
     void testRemoveHistory() {
 
-        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager(historyManager);
-        historyManager.add(task);
-        historyManager.add(task1);
-        historyManager.add(epic);
+        TaskManager taskManager = Managers.getDefault();
+        HistoryManager historyManager = taskManager.getHistoryManager();
 
-        assertEquals(3, historyManager.getHistory().size());
+        taskManager.addNewTask(task);
+        taskManager.addNewEpic(epic);
 
-        inMemoryTaskManager.deleteTask(task1);
-
-        assertEquals(2, historyManager.getHistory().size());
-
-        inMemoryTaskManager.deleteTask(task1);
+        taskManager.findTask(task.getId());
+        taskManager.findEpicTask(epic.getId());
 
         assertEquals(2, historyManager.getHistory().size());
 
-        inMemoryTaskManager.deleteTask(subTask);
+        taskManager.deleteTask(task);
 
-        assertEquals(2, historyManager.getHistory().size());
+        assertEquals(1, historyManager.getHistory().size());
     }
 }

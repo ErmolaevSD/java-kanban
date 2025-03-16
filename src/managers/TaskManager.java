@@ -17,9 +17,9 @@ public interface TaskManager {
 
     SubTask addNewSubTask(SubTask subTask);
 
-    List<SubTask> getSubTasks(Epic epic);
+    List<SubTask> getSubTasks(List<Integer> subTasksByID);
 
-    List<SubTask> getAllSubtasks(Epic epic);
+    List<SubTask> getAllSubtasks();
 
     List<Task> getListTask();
 
@@ -54,4 +54,6 @@ public interface TaskManager {
     Status newStatus(Epic epic);
 
     TreeSet<Task> getTaskPriotity();
+
+    HistoryManager getHistoryManager();
 }

@@ -26,18 +26,18 @@ public class HttpEpicHandler extends BaseHttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        String method = exchange.getRequestMethod();
+        HttpMethod method = HttpMethod.valueOf(exchange.getRequestMethod());
         String[] paths = exchange.getRequestURI().getPath().split("/");
 
         try {
             switch (method) {
-                case "GET":
+                case GET:
                     getEpic(exchange, paths);
                     break;
-                case "POST":
+                case POST:
                     postEpic(exchange);
                     break;
-                case "DELETE":
+                case DELETE:
                     deleteEpic(exchange, paths);
                     break;
                 default:

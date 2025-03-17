@@ -26,21 +26,25 @@ public class HttpSubtasksHandler extends BaseHttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        String method = exchange.getRequestMethod();
+        HttpMethod method = HttpMethod.valueOf(exchange.getRequestMethod());
         String[] paths = exchange.getRequestURI().getPath().split("/");
 
         try {
             switch (method) {
-                case "GET":
+                case GET:
                     getSubTasks(exchange, paths);
-                case "POST":
+                    break;
+                case POST:
                     postSubTask(exchange);
-                case "DELETE":
+                    break;
+                case DELETE:
                     deleteSubTask(exchange, paths);
+                    break;
                 default:
                     String errorMessage = "Обработка данного метода " + method + " не предусмотренна";
                     String jsonTask = gsonBuilder.toJson(errorMessage);
                     sendText(exchange, jsonTask, 500);
+                    break;
             }
         } catch (NotTaskException | NotIntegerIdException e) {
             sendText(exchange, e.getMessage(), 404);

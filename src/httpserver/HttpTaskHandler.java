@@ -24,18 +24,18 @@ public class HttpTaskHandler extends BaseHttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        String method = exchange.getRequestMethod();
+        HttpMethod method = HttpMethod.valueOf(exchange.getRequestMethod());
         String[] paths = exchange.getRequestURI().getPath().split("/");
 
         try {
             switch (method) {
-                case "GET":
+                case GET:
                     getTasks(exchange, paths);
                     break;
-                case "POST":
+                case POST:
                     postTasks(exchange);
                     break;
-                case "DELETE":
+                case DELETE:
                     deleteTasks(exchange, paths);
                     break;
                 default:

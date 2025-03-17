@@ -19,18 +19,19 @@ public class HttpPrioritiHandler extends BaseHttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        String method = exchange.getRequestMethod();
-        String[] paths = exchange.getRequestURI().getPath().split("/");
+        HttpMethod method = HttpMethod.valueOf(exchange.getRequestMethod());
 
         try {
-            if (method.equals("GET") && paths.length == 2) {
-                TreeSet<Task> historyTask = taskManager.getTaskPriotity();
-                String jsonTasks = gsonBuilder.toJson(historyTask);
-                sendText(exchange, jsonTasks, 200);
-            } else {
+            switch (method) {
+                case GET:
+                    TreeSet<Task> historyTask = taskManager.getTaskPriotity();
+                    String jsonTasks = gsonBuilder.toJson(historyTask);
+                    sendText(exchange, jsonTasks, 200);
+                default:
                 String errorMessage = "Обработка данного метода " + method + " не предусмотренна";
                 String jsonTask = gsonBuilder.toJson(errorMessage);
                 sendText(exchange, jsonTask, 500);
+                break;
             }
         } catch (NotTaskException e) {
             sendText(exchange, e.getMessage(), 404);

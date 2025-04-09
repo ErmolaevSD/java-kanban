@@ -6,6 +6,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 
+import static java.util.Objects.isNull;
+
 public class Task {
 
     private String name;
@@ -24,8 +26,10 @@ public class Task {
         this.duration = duration;
     }
 
-
     public void setStartTime(Instant startTime) {
+        if (isNull(startTime)) {
+            throw new ManagerTimeException("Нельзя установить пустое время для задачи - " + getName());
+        }
         this.startTime = startTime;
     }
 
@@ -36,17 +40,25 @@ public class Task {
     }
 
     public void setDuration(Duration duration) {
+        if (isNull(duration)) {
+            throw new ManagerTimeException("Нельзя установить пустой временной период для задачи - " + getName());
+        }
         this.duration = duration;
     }
 
     public Duration getDuration() {
-        return duration;
+        if (duration == null) {
+            throw new ManagerTimeException("Не задано время выполнения задачи");
+        } else return duration;
     }
+
 
     public Instant getEndTime() {
         if (startTime == null) {
-            throw new ManagerTimeException("Не задано начальное время");
-        } else return startTime.plus(duration);
+            throw new ManagerTimeException("Не задано конечное время задачи");
+        } else {
+            return startTime.plus(duration);
+        }
     }
 
     public void setName(String name) {

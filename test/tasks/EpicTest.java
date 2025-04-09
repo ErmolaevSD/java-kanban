@@ -20,36 +20,19 @@ class EpicTest {
     @BeforeEach
     public void unit() {
         taskManager = Managers.getDefault();
-        epic = new Epic("Купить квартиру", "-", Status.NEW, 1, Duration.ofMinutes(1), Instant.ofEpochSecond(10));
-        subTask = new SubTask("Накопить", "1000", Status.NEW, 2,epic,Duration.ofMinutes(5),Instant.ofEpochSecond(100));
-        subTask1 = new SubTask("Накопить", "1000", Status.NEW, 3,epic,Duration.ofMinutes(5),Instant.ofEpochSecond(1200));
-        taskManager.addNewEpic(epic);
-        taskManager.addNewSubTask(subTask);
-        taskManager.addNewSubTask(subTask1);
+        epic = new Epic("Купить квартиру", "-", Status.NEW, 0, Duration.ofMinutes(1), Instant.ofEpochSecond(10));
+        subTask = new SubTask("Накопить", "1000", Status.NEW, 1,0,Duration.ofMinutes(5),Instant.ofEpochSecond(100));
+        subTask1 = new SubTask("Накопить", "1000", Status.NEW, 2,0,Duration.ofMinutes(5),Instant.ofEpochSecond(1200));
     }
 
     @Test
     void getSubTasks() {
+        taskManager.addNewEpic(epic);
+        taskManager.addNewSubTask(subTask);
+        taskManager.addNewSubTask(subTask1);
+
         Integer expected = 2;
-        Integer actually = epic.getSubTasks().size();
-
-        assertEquals(expected, actually);
-    }
-
-    @Test
-    void epicStartTime() {
-epic.setStartTime();
-        Instant expected = epic.getStartTime();
-        Instant actually = Instant.ofEpochSecond(100);
-
-        assertEquals(expected, actually);
-    }
-
-    @Test
-    void getEndTime() {
-        epic.setEndTime();
-        Instant expected = epic.getEndTime();
-        Instant actually = Instant.ofEpochSecond(1500);
+        Integer actually = epic.getSubTasksID().size();
 
         assertEquals(expected, actually);
     }

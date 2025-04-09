@@ -15,13 +15,13 @@ class SubTaskTest {
     @BeforeEach
     public void util() {
         epic= new Epic("Купить квартиру", "-", Status.NEW, 1, Duration.ofMinutes(5), Instant.now().minusSeconds(100));
-        subTask = new SubTask("Накопить", "1000", Status.NEW, 2,epic,Duration.ofMinutes(5),Instant.now().minusSeconds(1000));
+        subTask = new SubTask("Накопить", "1000", Status.NEW, 2,1,Duration.ofMinutes(5),Instant.now().minusSeconds(1000));
     }
 
     @Test
     void testGetParentTask() {
-        Epic parentsEpic = subTask.getParentTask();
+        Integer parentsEpic = subTask.getParentTask();
 
-        assertEquals(epic, parentsEpic);
+        assertEquals(epic.getId(), parentsEpic);
     }
 }

@@ -34,10 +34,6 @@ public class Task {
         this.endTime = endTime;
     }
 
-    public String stringToFile() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s\n", id, TaskType.TASK, name, status, description, duration, startTime);
-    }
-
     @Override
     public String toString() {
         return "Task{" +

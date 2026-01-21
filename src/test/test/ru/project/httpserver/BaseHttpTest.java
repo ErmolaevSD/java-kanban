@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import ru.project.HttpTaskServer;
+import ru.project.httpHandler.BaseHttpHandler;
 import ru.project.service.HistoryManager;
 import ru.project.service.Managers;
 import ru.project.service.TaskManager;
@@ -21,10 +23,8 @@ public class BaseHttpTest {
     protected HttpClient httpClient;
     protected HistoryManager historyManager;
 
-
     @BeforeEach
     public void setUp() throws IOException, InterruptedException {
-
         taskManager = Managers.getDefault();
         historyManager = taskManager.getHistoryManager();
         httpTaskServer = new HttpTaskServer(8088, "localhost", taskManager);
@@ -36,7 +36,7 @@ public class BaseHttpTest {
         httpClient = HttpClient.newHttpClient();
 
         httpTaskServer.startTaskServer();
-        Thread.sleep(3000);
+        Thread.sleep(1000);
     }
 
     @AfterEach

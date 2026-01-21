@@ -1,4 +1,4 @@
-package ru.project.httpserver;
+package ru.project.httpHandler;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -27,6 +27,8 @@ public class HttpEpicHandler extends BaseHttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+
+        logger.info("На сервер поступил HTTP - запрос: method=[{}], path=[{}]", exchange.getRequestMethod(), exchange.getRequestURI());
 
         String method = exchange.getRequestMethod();
         String[] paths = exchange.getRequestURI().getPath().split("/");

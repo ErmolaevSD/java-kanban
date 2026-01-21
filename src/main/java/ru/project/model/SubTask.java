@@ -21,11 +21,6 @@ public class SubTask extends Task {
         this.endTime = startTime.plus(duration);
     }
 
-    public String stringToFile() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s,%s\n", getId(), TaskType.SUBTASK, getName(), getStatus(),
-                getDescription(), getId(), getDuration(), getStartTime());
-    }
-
     @Override
     public String toString() {
         return "SubTask{" +

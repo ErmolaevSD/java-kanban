@@ -1,4 +1,4 @@
-package ru.project.httpserver;
+package ru.project.httpHandler;
 
 import com.sun.net.httpserver.HttpExchange;
 import ru.project.exception.IntersectionTaskException;
@@ -18,6 +18,9 @@ public class HttpHistoryHandler extends BaseHttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+
+        logger.info("На сервер поступил HTTP - запрос: method=[{}], path=[{}]", exchange.getRequestMethod(), exchange.getRequestURI());
+
 
         String method = exchange.getRequestMethod();
 

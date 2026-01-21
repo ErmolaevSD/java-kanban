@@ -1,4 +1,4 @@
-package ru.project.httpserver;
+package ru.project.httpHandler;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,7 +38,6 @@ public abstract class BaseHttpHandler implements HttpHandler {
     }
 
     protected void sendText(HttpExchange exchange, String data, Integer errorCode) throws IOException {
-
         byte[] resp;
         if (data == null) {
             resp = new byte[0];
@@ -71,6 +70,8 @@ public abstract class BaseHttpHandler implements HttpHandler {
 
     protected void sendSuccess(HttpExchange exchange, String text) throws IOException {
         sendText(exchange, text, 200);
+        logger.info("HTTP - запрос: method=[{}], path=[{}] успешно обработан", exchange.getRequestMethod(), exchange.getRequestURI());
+
     }
 
     protected void sendError(HttpExchange exchange, String errorMessage, int statusCode) throws IOException {

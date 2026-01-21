@@ -22,10 +22,6 @@ public class Epic extends Task {
         this.endTime = startTime.plus(duration);
     }
 
-    public String stringToFile() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s\n", getId(), TaskType.EPIC, getName(), getStatus(), getDescription(), getDuration(), getStartTime());
-    }
-
     @Override
     public String toString() {
         return "Epic{" +

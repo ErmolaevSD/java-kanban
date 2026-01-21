@@ -1,6 +1,7 @@
-package ru.project.httpserver;
+package ru.project;
 
 import com.sun.net.httpserver.HttpServer;
+import ru.project.httpHandler.*;
 import ru.project.service.TaskManager;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class HttpTaskServer {
         httpServer.createContext("/epics", new HttpEpicHandler(taskManager));
         httpServer.createContext("/subtasks", new HttpSubtasksHandler(taskManager));
         httpServer.createContext("/history", new HttpHistoryHandler(taskManager));
-//        httpServer.createContext("/prioritized", new HttpPrioritiHandler(taskManager));
+        httpServer.createContext("/prioritized", new HttpPriorityHandler(taskManager));
     }
 
     public void startTaskServer() {

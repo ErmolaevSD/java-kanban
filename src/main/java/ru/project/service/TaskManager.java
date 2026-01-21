@@ -6,7 +6,6 @@ import ru.project.model.Task;
 
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 public interface TaskManager {
 
@@ -48,9 +47,7 @@ public interface TaskManager {
 
     SubTask updateSub(SubTask newSub);
 
-    void newStatus(Epic epic);
-
-    TreeSet<Task> getTaskPriotity();
+    List<Task> getTaskPriotity();
 
     HistoryManager getHistoryManager();
 }
